@@ -27,10 +27,11 @@ from .transactions import (
 class Security:
     """Representation of a single security and associated transactions"""
 
-    def __init__(self, symbol: str, name: str, currency: Currency):
-        self.symbol = symbol
-        self.name = name
+    def __init__(self, symbol: str, name: str, currency: Currency, isin: str = ""):
         self.currency = currency
+        self.isin = isin
+        self.name = name
+        self.symbol = symbol
         self.transactions: List[Transaction] = []
         self.events_: List[Tuple[Transaction, PooledPurchase]] = []
 

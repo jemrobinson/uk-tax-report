@@ -38,7 +38,7 @@ class DataFile:
                 set(
                     self.df_transactions.loc[
                         (self.df_transactions["Cash Account"] == account_name)
-                    ][["Symbol", "Security"]].itertuples(index=False)
+                    ][["Symbol", "Security", "ISIN"]].itertuples(index=False)
                 ),
                 key=lambda t: t.Security.lower(),
             )

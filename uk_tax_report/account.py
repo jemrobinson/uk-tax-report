@@ -21,9 +21,10 @@ class Account:
         if data:
             self.securities = [
                 Security(
-                    symbol=security_tuple.Symbol,
-                    name=security_tuple.Security,
                     currency=self.currency,
+                    isin=security_tuple.ISIN,
+                    name=security_tuple.Security,
+                    symbol=security_tuple.Symbol,
                 )
                 for security_tuple in data.securities[self.name]
             ]
@@ -41,8 +42,8 @@ class Account:
             )
         output = Account(f"{self.name}-{other.name}", self.currency)
         output.securities = [
-            Security(old.symbol, old.name, self.currency)
-            for old in set(self.securities + other.securities)
+            Security(security.symbol, security.name, security.currency, security.isin)
+            for security in set(self.securities + other.securities)
         ]
         for security in output.securities:
             for existing_security in self.securities + other.securities:
@@ -89,7 +90,9 @@ class Account:
             f"Listing holdings during UK tax year {start_date.year}-{end_date.year}..."
         )
         for security in sorted(self.holdings(start_date, end_date)):
-            logging.info(f"  {f'[{security.symbol}]':15} {security.name}")
+            logging.info(
+                f"  {f'[{security.isin}]':14} {f'[{security.symbol}]':15} {security.name}"
+            )
         relevant_securities = (
             sorted(self.securities, key=lambda s: s.name)
             if include_non_taxable
