@@ -1,4 +1,5 @@
 """Definition of the CreditTransaction and DebitTransaction classes"""
+
 # Third-party imports
 from moneyed import Money
 

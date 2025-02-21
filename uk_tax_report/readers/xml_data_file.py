@@ -1,4 +1,5 @@
 """Definition of the XmlReader class"""
+
 # Standard library imports
 import logging
 

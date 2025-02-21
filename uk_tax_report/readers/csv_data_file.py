@@ -1,4 +1,5 @@
 """Definition of the CsvReader class"""
+
 # Standard library imports
 import logging
 

@@ -1,4 +1,5 @@
 """Definition of the Security class"""
+
 # Standard library imports
 import copy
 import logging

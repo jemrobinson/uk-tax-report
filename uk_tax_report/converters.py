@@ -1,4 +1,5 @@
 """General utility functions for converting between types"""
+
 # Standard library imports
 import datetime
 from contextlib import suppress

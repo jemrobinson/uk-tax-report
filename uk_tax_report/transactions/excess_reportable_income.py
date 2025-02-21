@@ -1,4 +1,5 @@
 """Definition of the ExcessReportableIncome class"""
+
 # Standard library imports
 from datetime import datetime
 

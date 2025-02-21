@@ -1,4 +1,5 @@
 """Definition of the Dividend class"""
+
 # Third-party imports
 from moneyed import Money
 

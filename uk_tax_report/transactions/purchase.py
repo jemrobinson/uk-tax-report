@@ -1,4 +1,5 @@
 """Definition of the Purchase class"""
+
 # Third-party imports
 from moneyed import Money
 

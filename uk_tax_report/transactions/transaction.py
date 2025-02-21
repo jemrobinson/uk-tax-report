@@ -1,4 +1,5 @@
 """Definition of the Transaction class"""
+
 # Standard library imports
 from datetime import date, datetime
 from decimal import Decimal

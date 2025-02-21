@@ -1,4 +1,5 @@
 """Definition of the Reader class"""
+
 # Standard library imports
 from typing import Dict, List, Set
 
@@ -77,7 +78,11 @@ class DataFile:
                         transaction.Note,
                     )
                 transactions.append(bought)
-            elif transaction.Type.lower() in ["sell", "delivery_outbound", "transfer_out"]:
+            elif transaction.Type.lower() in [
+                "sell",
+                "delivery_outbound",
+                "transfer_out",
+            ]:
                 transactions.append(
                     Sale(
                         transaction.Date,

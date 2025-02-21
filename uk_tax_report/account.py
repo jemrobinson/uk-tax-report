@@ -1,4 +1,5 @@
 """Definition of the Account class"""
+
 # Standard library imports
 import logging
 from datetime import date

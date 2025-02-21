@@ -1,4 +1,5 @@
 """Definition of the Sale class"""
+
 # Third-party imports
 from moneyed import Money
 

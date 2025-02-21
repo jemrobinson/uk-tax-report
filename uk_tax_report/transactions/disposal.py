@@ -1,4 +1,5 @@
 """Definition of the Disposal class"""
+
 # Third-party imports
 from moneyed import Money
 

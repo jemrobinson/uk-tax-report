@@ -1,4 +1,5 @@
 """Transactions module"""
+
 from .bed_and_breakfast import BedAndBreakfast
 from .disposal import Disposal
 from .dividend import Dividend

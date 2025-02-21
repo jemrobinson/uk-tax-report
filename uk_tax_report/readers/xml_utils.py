@@ -1,4 +1,5 @@
 """Utility functions for reading PortfolioPerformance XML files"""
+
 # Standard library imports
 import re
 import xml.etree.ElementTree as ET

@@ -1,4 +1,5 @@
 """Definition of the PooledPurchase class"""
+
 # Third-party imports
 from moneyed import Currency
 
