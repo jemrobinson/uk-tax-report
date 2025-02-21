@@ -11,7 +11,7 @@ from .transaction import Transaction
 class Disposal(Transaction):
     """A combined purchase and sale"""
 
-    def __init__(
+    def __init__(  # type: ignore[too-many-positional-arguments]
         self,
         date_time,
         currency,

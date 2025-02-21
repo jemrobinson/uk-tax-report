@@ -66,6 +66,7 @@ class Transaction:
 
     @property
     def subtotal(self) -> Money:
+        """Subtotal in this transaction before fees, taxes etc."""
         return self.subtotal_
 
     @property

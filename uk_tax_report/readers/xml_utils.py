@@ -13,8 +13,7 @@ import pandas as pd
 def flatten(element_lists: List[List[ET.Element]]) -> Iterable[ET.Element]:
     """Return all elements from a list of lists"""
     for element_list in element_lists:
-        for element in element_list:
-            yield element
+        yield from element_list
 
 
 def get_accounts(root: ET.Element) -> pd.DataFrame:

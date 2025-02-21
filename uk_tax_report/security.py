@@ -149,7 +149,7 @@ class Security:
             t
             for t in self.transactions
             if (start_date <= t.datetime.date() <= end_date)
-            and (isinstance(t, Dividend) or isinstance(t, ExcessReportableIncome))
+            and isinstance(t, (Dividend, ExcessReportableIncome))
         ]
         # If there are dividends then log them
         if transactions:
