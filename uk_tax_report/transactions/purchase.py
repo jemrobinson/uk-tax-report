@@ -1,8 +1,5 @@
 """Definition of the Purchase class"""
 
-# Third-party imports
-from moneyed import Money
-
 # Local imports
 from .credit_debit import DebitTransaction
 

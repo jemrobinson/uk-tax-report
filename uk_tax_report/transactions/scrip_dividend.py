@@ -1,8 +1,5 @@
 """Definition of the ScripDividend class"""
 
-# Third-party imports
-from moneyed import Money
-
 # Local imports
 from .purchase import Purchase
 
