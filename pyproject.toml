@@ -1,3 +1,7 @@
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
 [tool.poetry]
 name = "uk-tax-report"
 version = "0.1.0"
@@ -13,10 +17,63 @@ python-dateutil = ">2.8"
 
 [tool.poetry.group.dev.dependencies]
 black = ">22.0"
-flake8 = ">4.0"
 isort = ">5.10"
-pylint = ">2.12"
+ruff = ">0.9"
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+[tool.ruff.lint]
+select = [ "ALL" ]
+ignore = [
+    "ANN001",   # missing type annotation for function argument
+    "ANN002",   # missing type annotation for **args
+    "ANN003",   # missing type annotation for **kwargs
+    "ANN201",   # missing return type annotation for public function
+    "ANN204",   # missing type annotation for __init__
+    "ANN401",   # dynamically typed expressions in *args, **kwargs
+    "C901",     # too complex
+    "COM812",   # trailing comma missing
+    "D105",     # missing docstring in magic method
+    "D107",     # missing docstring in __init__
+    "D203",     # conflicts with D211
+    "D205",     # blank line required between summary line and description
+    "D212",     # multi-line docstring summary
+    "D400",     # first line should end with a period
+    "D401",     # first line of docstring should be in imperative mood
+    "D415",     # first line should end with a period, question mark, or exclamation point
+    "E501",     # ignore line length
+    "EM101",    # exception must not use a string literal, assign to variable first
+    "EM102",    # exception must not use an f-string literal
+    "FA100",    # add `from __future__ import annotations` to simplify `typing.Union`
+    "FBT001",   # boolean-typed positional argument in function definition
+    "FBT002",   # boolean default positional argument in function definition
+    "G004",     # logging statement uses f-string
+    "PD002",    # `inplace=True` should be avoided; it has inconsistent behavior
+    "PD015",    # use `.merge` method instead of `pd.merge` function
+    "PERF203",  # `try`-`except` within a loop incurs performance overhead
+    "PLR0913",  # too many arguments in function definition
+    "PLR0915",  # too many statements
+    "PLR2004",  # magic value used in comparison
+    "PYI041",   # use `float` instead of `int | float`
+    "RET504",   # unnecessary assignment before `return` statement
+    "RSE102",   # unnecessary parentheses on raised exception
+    "RUF010",   # use explicit conversion flag
+    "RUF013",   # PEP 484 prohibits implicit `Optional`
+    "RUF015",   # Prefer `next()` over single element slice
+    "RUF017",   # avoid quadratic list summation"
+    "S314",     # using `xml` to parse untrusted data is known to be vulnerable to XML attacks; use `defusedxml` equivalents
+    "SIM102",   # use a single `if` statement instead of nested `if` statements"
+    "TID252",   # prefer absolute imports over relative imports
+    "TRY003",   # avoid specifying long messages outside the exception class
+    "TRY004",   # prefer `TypeError` exception for invalid type
+    "UP006",    # use `tuple` instead of `Tuple` for type annotation"
+    "UP035",    # `typing.Tuple` is deprecated, use `tuple` instead
+]
+
+# [tool.ruff.lint.flake8-builtins]
+# builtins-allowed-modules = ["types"]
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "parents"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+known-first-party = ["uk_tax_report"]

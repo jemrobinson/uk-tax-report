@@ -6,19 +6,23 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
+
       - name: Set up Python 3.9
         uses: actions/setup-python@v2
         with:
           python-version: 3.9
+
       - name: Install poetry
         run: pip install poetry
+
       - name: Install dependencies
         run: poetry install
+
       - name: Check imports with isort
         run: poetry run isort --profile black .
+
       - name: Check style with black
         run: poetry run black --check .
-      - name: Check style with pylint
-        run: poetry run pylint uk_tax_report
-      - name: Check style with flake8
-        run: poetry run flake8 .
+
+      - name: Check syntax with ruff
+        run: poetry run ruff check .
