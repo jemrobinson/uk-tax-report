@@ -3,7 +3,7 @@
 import pandas as pd
 from moneyed import Currency
 
-from ..transactions import (
+from uk_tax_report.transactions import (
     Dividend,
     ExcessReportableIncome,
     Purchase,

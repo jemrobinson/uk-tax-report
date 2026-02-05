@@ -2,7 +2,8 @@
 
 from moneyed import Money
 
-from ..converters import abs_divide, as_money
+from uk_tax_report.converters import abs_divide, as_money
+
 from .transaction import Transaction
 
 
