@@ -1,13 +1,12 @@
 """Definition of the CsvReader class"""
 
-# Standard library imports
 import logging
 
-# Third-party imports
 import pandas as pd
 
-# Local imports
 from .data_file import DataFile
+
+logger = logging.getLogger(__name__)
 
 
 class CsvDataFile(DataFile):
@@ -28,4 +27,4 @@ class CsvDataFile(DataFile):
         self.df_transactions["Amount"] = self.df_transactions["Amount"].str.replace(
             ",", ""
         )
-        logging.debug(f"Processing {self.df_transactions.shape[0]} transactions...")
+        logger.debug(f"Processing {self.df_transactions.shape[0]} transactions...")

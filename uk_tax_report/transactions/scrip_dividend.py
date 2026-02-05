@@ -1,6 +1,5 @@
 """Definition of the ScripDividend class"""
 
-# Local imports
 from .purchase import Purchase
 
 

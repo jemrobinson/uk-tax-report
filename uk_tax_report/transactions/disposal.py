@@ -1,9 +1,7 @@
 """Definition of the Disposal class"""
 
-# Third-party imports
 from moneyed import Money
 
-# Local imports
 from ..converters import abs_divide, as_money
 from .transaction import Transaction
 

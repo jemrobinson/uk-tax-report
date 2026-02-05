@@ -1,6 +1,5 @@
 """Definition of the Purchase class"""
 
-# Local imports
 from .credit_debit import DebitTransaction
 
 

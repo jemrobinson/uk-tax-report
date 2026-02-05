@@ -1,6 +1,5 @@
 """Definition of the BedAndBreakfast class"""
 
-# Local imports
 from .disposal import Disposal
 
 

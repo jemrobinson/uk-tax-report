@@ -1,11 +1,11 @@
 """Utility functions related to reconciling transactions"""
 
-# Standard library imports
 import logging
 from typing import List, Tuple
 
-# Local imports
 from .transactions import Disposal, PooledPurchase, Purchase, Sale
+
+logger = logging.getLogger(__name__)
 
 
 def exchange(purchases: List[Purchase], sale: Sale) -> Tuple[Purchase, Sale, Disposal]:
@@ -41,7 +41,7 @@ def reconcile(purchase: Purchase, sale: Sale) -> Tuple[Purchase, Sale, Disposal]
     residual_units = abs(purchase.units - sale.units)
     if purchase.units > sale.units:
         # In this case we are selling part of the purchase => the entire sale is consumed
-        logging.debug(f"Selling part of the purchase: {sale.units} of {purchase.units}")
+        logger.debug(f"Selling part of the purchase: {sale.units} of {purchase.units}")
         sale_ = Sale(sale.datetime, sale.currency)
         disposal = Disposal(
             sale.datetime,
@@ -73,7 +73,7 @@ def reconcile(purchase: Purchase, sale: Sale) -> Tuple[Purchase, Sale, Disposal]
         )
     elif purchase.units < sale.units:
         # In this case we are selling more than the entire purchase => the entire purchase is consumed
-        logging.debug(
+        logger.debug(
             f"Selling more than the entire purchase: {sale.units} of {purchase.units}"
         )
         purchase_ = Purchase(purchase.datetime, purchase.currency)
@@ -107,7 +107,7 @@ def reconcile(purchase: Purchase, sale: Sale) -> Tuple[Purchase, Sale, Disposal]
         )
     elif purchase.units == sale.units:
         # In this case we are selling the entire purchase => the entire purchase and sale are consumed
-        logging.debug(f"Selling the entire purchase: {sale.units} of {purchase.units}")
+        logger.debug(f"Selling the entire purchase: {sale.units} of {purchase.units}")
         sale_ = Sale(sale.datetime, sale.currency)
         purchase_ = Purchase(purchase.datetime, purchase.currency)
         disposal = Disposal(

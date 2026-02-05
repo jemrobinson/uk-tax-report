@@ -5,11 +5,9 @@ from datetime import date, datetime
 from decimal import Decimal
 from typing import Union
 
-# Third-party imports
 from moneyed import Currency, Money
 
-# Local imports
-from ..converters import abs_divide, as_currency, as_datetime, as_money
+from uk_tax_report.converters import abs_divide, as_currency, as_datetime, as_money
 
 
 class Transaction:

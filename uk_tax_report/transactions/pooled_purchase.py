@@ -1,9 +1,7 @@
 """Definition of the PooledPurchase class"""
 
-# Third-party imports
 from moneyed import Currency
 
-# Local imports
 from .bed_and_breakfast import BedAndBreakfast
 from .disposal import Disposal
 from .excess_reportable_income import ExcessReportableIncome

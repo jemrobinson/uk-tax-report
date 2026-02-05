@@ -1,6 +1,5 @@
 """Definition of the Dividend class"""
 
-# Local imports
 from .credit_debit import CreditTransaction
 
 

@@ -1,14 +1,13 @@
 """Definition of the XmlReader class"""
 
-# Standard library imports
 import logging
 
-# Third-party imports
 import pandas as pd
 
-# Local imports
 from .data_file import DataFile
 from .xml_utils import read_xml
+
+logger = logging.getLogger(__name__)
 
 
 class XmlDataFile(DataFile):
@@ -23,4 +22,4 @@ class XmlDataFile(DataFile):
 
         # Set datatypes
         self.df_transactions["Date"] = pd.to_datetime(self.df_transactions["Date"])
-        logging.debug(f"Processing {self.df_transactions.shape[0]} transactions...")
+        logger.debug(f"Processing {self.df_transactions.shape[0]} transactions...")

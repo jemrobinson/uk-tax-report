@@ -1,13 +1,10 @@
 """Definition of the Reader class"""
 
-# Standard library imports
 from typing import Dict, List, Set
 
-# Third-party imports
 import pandas as pd
 from moneyed import Currency
 
-# Local imports
 from ..transactions import (
     Dividend,
     ExcessReportableIncome,

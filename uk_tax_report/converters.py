@@ -1,13 +1,11 @@
 """General utility functions for converting between types"""
 
-# Standard library imports
 import datetime
 from contextlib import suppress
 from decimal import InvalidOperation
 from math import isnan
 from typing import Any
 
-# Third party imports
 from dateutil.parser import parse
 from moneyed import Currency, CurrencyDoesNotExist, Money, format_money, get_currency
 

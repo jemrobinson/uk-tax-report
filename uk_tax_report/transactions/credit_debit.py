@@ -1,9 +1,7 @@
 """Definition of the CreditTransaction and DebitTransaction classes"""
 
-# Third-party imports
 from moneyed import Money
 
-# Local imports
 from .transaction import Transaction
 
 

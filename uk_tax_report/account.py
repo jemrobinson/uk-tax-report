@@ -1,15 +1,15 @@
 """Definition of the Account class"""
 
-# Standard library imports
 import logging
 from datetime import date
 from typing import List, Optional
 
-# Local imports
 from .converters import as_currency
 from .readers import DataFile
 from .security import Security
 from .transactions import Transaction
+
+logger = logging.getLogger(__name__)
 
 
 class Account:
@@ -81,16 +81,16 @@ class Account:
     ):
         """Report tax summary for this account"""
         # Restrict to specified accounts
-        logging.info(
+        logger.info(
             f"Account '{self.name}' has {len(self.transactions)} transactions across {len(self.securities)} securities"
         )
 
         # Holdings
-        logging.info(
+        logger.info(
             f"Listing holdings during UK tax year {start_date.year}-{end_date.year}..."
         )
         for security in sorted(self.holdings(start_date, end_date)):
-            logging.info(
+            logger.info(
                 f"  {f'[{security.isin}]':14} {f'[{security.symbol}]':15} {security.name}"
             )
         relevant_securities = (
@@ -100,14 +100,14 @@ class Account:
         )
 
         # Capital gains
-        logging.info(
+        logger.info(
             f"Looking for capital gains during UK tax year {start_date.year}-{end_date.year}..."
         )
         for security in relevant_securities:
             security.report_capital_gains(start_date, end_date)
 
         # Dividends and ERIs
-        logging.info(
+        logger.info(
             f"Looking for dividends and ERIs during UK tax year {start_date.year}-{end_date.year}..."
         )
         for security in relevant_securities:
