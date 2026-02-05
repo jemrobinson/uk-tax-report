@@ -69,9 +69,8 @@ class Security:
         events_before = [
             event for event in self.events if event[0].datetime.date() < start_date
         ]
-        if events_before:
-            if events_before[-1][1].units > 0:
-                return True
+        if events_before and events_before[-1][1].units > 0:
+            return True
         # Check whether any units were held during the year
         for event in filter(
             lambda e: start_date <= e[0].datetime.date() <= end_date, self.events

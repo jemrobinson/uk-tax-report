@@ -64,7 +64,6 @@ ignore = [
     "RUF015",   # Prefer `next()` over single element slice
     "RUF017",   # avoid quadratic list summation"
     "S314",     # using `xml` to parse untrusted data is known to be vulnerable to XML attacks; use `defusedxml` equivalents
-    "SIM102",   # use a single `if` statement instead of nested `if` statements"
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]
