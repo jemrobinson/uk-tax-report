@@ -8,6 +8,7 @@ from decimal import Decimal
 from typing import Optional
 
 import pandas as pd
+from defusedxml.ElementTree import parse
 
 
 def flatten(element_lists: list[list[ET.Element]]) -> Iterable[ET.Element]:
@@ -129,7 +130,7 @@ def get_transactions(root: ET.Element, account_id, df_securities):
 def read_xml(file_name: str) -> pd.DataFrame:
     """Read a PortfolioPerformance XML file into a Pandas dataframe"""
     # Read all XML entries with a valid symbol and security
-    tree = ET.parse(file_name)
+    tree = parse(file_name)
     root = tree.getroot()
 
     # Read securities, accounts and transactions and set datatypes

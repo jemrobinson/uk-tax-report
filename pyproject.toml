@@ -12,6 +12,7 @@ authors = [
 ]
 requires-python = ">=3.9"
 dependencies = [
+    "defusedxml>=0.7.1",
     "pandas>1.3",
     "py-moneyed>2.0",
     "python-dateutil>2.8",
@@ -63,7 +64,6 @@ ignore = [
     "RUF013",   # PEP 484 prohibits implicit `Optional`
     "RUF015",   # Prefer `next()` over single element slice
     "RUF017",   # avoid quadratic list summation"
-    "S314",     # using `xml` to parse untrusted data is known to be vulnerable to XML attacks; use `defusedxml` equivalents
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]
