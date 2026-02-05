@@ -3,7 +3,6 @@
 import copy
 import logging
 from datetime import date
-from typing import List, Tuple
 
 from moneyed import Currency
 
@@ -31,8 +30,8 @@ class Security:
         self.isin = isin
         self.name = name
         self.symbol = symbol
-        self.transactions: List[Transaction] = []
-        self.events_: List[Tuple[Transaction, PooledPurchase]] = []
+        self.transactions: list[Transaction] = []
+        self.events_: list[tuple[Transaction, PooledPurchase]] = []
 
     def __repr__(self) -> str:
         return f"Security({self.name} [{self.symbol}])"
@@ -46,7 +45,7 @@ class Security:
     def __lt__(self, other) -> bool:
         return self.name < other.name
 
-    def add_transactions(self, transactions: List[Transaction]) -> None:
+    def add_transactions(self, transactions: list[Transaction]) -> None:
         """Add new transactions then resolve them together with existing transactions"""
         # Add new transactions
         self.transactions += transactions
@@ -54,12 +53,12 @@ class Security:
         self.resolve_transactions()
 
     @property
-    def disposals(self) -> List[Tuple[Transaction, PooledPurchase]]:
+    def disposals(self) -> list[tuple[Transaction, PooledPurchase]]:
         """List of all disposals"""
         return [e for e in self.events if isinstance(e[0], Disposal)]
 
     @property
-    def events(self) -> List[Tuple[Transaction, PooledPurchase]]:
+    def events(self) -> list[tuple[Transaction, PooledPurchase]]:
         """Return sorted events"""
         self.events_.sort(key=lambda e: e[0].datetime)
         return self.events_
@@ -81,9 +80,7 @@ class Security:
                 return True
         return False
 
-    def report_capital_gains(
-        self, start_date: date = None, end_date: date = None
-    ) -> None:
+    def report_capital_gains(self, start_date: date, end_date: date) -> None:
         """Produce a capital gains report"""
         # If there are no disposals in the time range there can be no capital gains
         if not any(start_date <= d[0].date <= end_date for d in self.disposals):

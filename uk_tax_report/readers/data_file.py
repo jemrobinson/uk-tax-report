@@ -1,7 +1,5 @@
 """Definition of the Reader class"""
 
-from typing import Dict, List, Set
-
 import pandas as pd
 from moneyed import Currency
 
@@ -22,12 +20,12 @@ class DataFile:
         self.df_transactions: pd.DataFrame
 
     @property
-    def account_names(self) -> Set[str]:
+    def account_names(self) -> set[str]:
         """List of account names"""
         return set(self.df_transactions["Cash Account"])
 
     @property
-    def securities(self) -> Dict[str, pd.DataFrame]:
+    def securities(self) -> dict[str, pd.DataFrame]:
         """Dictionary of account_name -> DataFrame where the DataFrame contains unique symbols and names of securities in that account"""
         securities = {}
         for account_name in self.account_names:
@@ -43,7 +41,7 @@ class DataFile:
 
     def get_transaction_list(
         self, account_name: str, security_name: str, currency: Currency
-    ) -> List[Transaction]:
+    ) -> list[Transaction]:
         """List of all transactions for a given account and security"""
         transactions = []
         for _, transaction in self.df_transactions.loc[

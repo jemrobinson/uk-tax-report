@@ -2,7 +2,7 @@
 
 import logging
 from datetime import date
-from typing import List, Optional
+from typing import Optional
 
 from .converters import as_currency
 from .readers import DataFile
@@ -57,18 +57,18 @@ class Account:
         return other + self
 
     @property
-    def taxable_securities(self) -> List[Security]:
+    def taxable_securities(self) -> list[Security]:
         """List of securities excluding any VCTs"""
         return sorted(
             [s for s in self.securities if "VCT" not in s.name], key=lambda s: s.name
         )
 
     @property
-    def transactions(self) -> List[Transaction]:
+    def transactions(self) -> list[Transaction]:
         """List of transactions in this account"""
         return sum([security.transactions for security in self.securities], [])
 
-    def holdings(self, start_date: date, end_date: date) -> List[Security]:
+    def holdings(self, start_date: date, end_date: date) -> list[Security]:
         """List of securities held between these dates"""
         return [
             security

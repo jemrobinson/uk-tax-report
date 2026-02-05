@@ -2,13 +2,15 @@
 
 import re
 import xml.etree.ElementTree as ET
+from collections.abc import Iterable
+from contextlib import suppress
 from decimal import Decimal
-from typing import Iterable, List
+from typing import Optional
 
 import pandas as pd
 
 
-def flatten(element_lists: List[List[ET.Element]]) -> Iterable[ET.Element]:
+def flatten(element_lists: list[list[ET.Element]]) -> Iterable[ET.Element]:
     """Return all elements from a list of lists"""
     for element_list in element_lists:
         yield from element_list
@@ -147,15 +149,19 @@ def read_xml(file_name: str) -> pd.DataFrame:
     return df_all
 
 
-def ref2name(transaction: str, df_securities: pd.DataFrame) -> str:
+def ref2name(
+    transaction: ET.Element[str], df_securities: pd.DataFrame
+) -> Optional[str]:
     """Find the security name corresponding to a given reference"""
-    try:
-        reference = transaction.findall("security")[0].attrib["reference"]
-        if reference.endswith("securities/security"):
-            index = 0
-        else:
-            regex_ = r".*/security\[(\d+)\]"
-            index = int(re.search(regex_, reference, re.IGNORECASE).group(1)) - 1
-        return df_securities.iloc[index]["id"]
-    except (IndexError, AttributeError):
-        return None
+    index = None
+    reference = transaction.findall("security")[0].attrib["reference"]
+    if reference.endswith("securities/security"):
+        index = 0
+    else:
+        regex_ = r".*/security\[(\d+)\]"
+        if result := re.search(regex_, reference, re.IGNORECASE):
+            index = int(result.group(1)) - 1
+    if index is not None:
+        with suppress(IndexError, AttributeError):
+            return df_securities.iloc[index]["id"]
+    return None

@@ -69,7 +69,6 @@ ignore = [
     "TRY003",   # avoid specifying long messages outside the exception class
     "TRY004",   # prefer `TypeError` exception for invalid type
     "UP006",    # use `tuple` instead of `Tuple` for type annotation"
-    "UP035",    # `typing.Tuple` is deprecated, use `tuple` instead
 ]
 
 # Default ignored error codes (rules not enforced by PEP8)

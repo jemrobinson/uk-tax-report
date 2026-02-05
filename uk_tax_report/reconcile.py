@@ -1,14 +1,13 @@
 """Utility functions related to reconciling transactions"""
 
 import logging
-from typing import List, Tuple
 
 from .transactions import Disposal, PooledPurchase, Purchase, Sale
 
 logger = logging.getLogger(__name__)
 
 
-def exchange(purchases: List[Purchase], sale: Sale) -> Tuple[Purchase, Sale, Disposal]:
+def exchange(purchases: list[Purchase], sale: Sale) -> tuple[Purchase, Sale, Disposal]:
     """
     Mark a sale as a direct exchange for a set of transactions.
 
@@ -28,7 +27,7 @@ def exchange(purchases: List[Purchase], sale: Sale) -> Tuple[Purchase, Sale, Dis
     return reconcile(pool, sale)
 
 
-def reconcile(purchase: Purchase, sale: Sale) -> Tuple[Purchase, Sale, Disposal]:
+def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]:
     """Reconcile a single purchase with a single sale"""
     if not isinstance(purchase, Purchase):
         raise ValueError(f"{purchase} is not a purchase!")
@@ -105,7 +104,7 @@ def reconcile(purchase: Purchase, sale: Sale) -> Tuple[Purchase, Sale, Disposal]
             sale_residual_fees,
             sale_residual_taxes,
         )
-    elif purchase.units == sale.units:
+    else:
         # In this case we are selling the entire purchase => the entire purchase and sale are consumed
         logger.debug(f"Selling the entire purchase: {sale.units} of {purchase.units}")
         sale_ = Sale(sale.datetime, sale.currency)
