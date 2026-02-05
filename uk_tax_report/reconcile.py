@@ -21,22 +21,22 @@ def exchange(purchases: list[Purchase], sale: Sale) -> tuple[Purchase, Sale, Dis
     for transaction in purchases:
         pool.add_purchase(transaction)
     if pool.units != sale.units:
-        raise ValueError(
-            f"Unable to match pool with {pool.units} shares against exchange-sale with {sale.units}"
-        )
+        msg = f"Unable to match pool with {pool.units} shares against exchange-sale with {sale.units}"
+        raise ValueError(msg)
     return reconcile(pool, sale)
 
 
 def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]:
     """Reconcile a single purchase with a single sale"""
     if not isinstance(purchase, Purchase):
-        raise TypeError(f"{purchase} is not a purchase!")
+        msg = f"{purchase} is not a purchase!"
+        raise TypeError(msg)
     if not isinstance(sale, Sale):
-        raise TypeError(f"{sale} is not a sale!")
-    if not sale.currency == purchase.currency:
-        raise TypeError(
-            f"Currencies {sale.currency} and {purchase.currency} do not match!"
-        )
+        msg = f"{sale} is not a sale!"
+        raise TypeError(msg)
+    if sale.currency != purchase.currency:
+        msg = f"Currencies {sale.currency} and {purchase.currency} do not match!"
+        raise TypeError(msg)
     residual_units = abs(purchase.units - sale.units)
     if purchase.units > sale.units:
         # In this case we are selling part of the purchase => the entire sale is consumed

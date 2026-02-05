@@ -33,14 +33,16 @@ class PooledPurchase(Purchase):
     def add_bed_and_breakfast(self, bed_and_breakfast: BedAndBreakfast) -> None:
         """Add a bed-and-breakfast to the pool"""
         if not isinstance(bed_and_breakfast, BedAndBreakfast):
-            raise TypeError(f"{bed_and_breakfast} is not a valid BedAndBreakfast!")
+            msg = f"{bed_and_breakfast} is not a valid BedAndBreakfast!"
+            raise TypeError(msg)
         self.datetime = max([self.datetime, bed_and_breakfast.datetime])
         self.subtotal_ = self.subtotal + bed_and_breakfast.gain
 
     def add_disposal(self, disposal: Disposal) -> None:
         """Add a disposal to the pool"""
         if not isinstance(disposal, Disposal):
-            raise TypeError(f"{disposal} is not a valid Purchase!")
+            msg = f"{disposal} is not a valid Purchase!"
+            raise TypeError(msg)
         self.datetime = max([self.datetime, disposal.datetime])
         self.units = self.units - disposal.units
         self.subtotal_ = self.subtotal - disposal.purchase_total
@@ -50,7 +52,8 @@ class PooledPurchase(Purchase):
     def add_eri(self, purchase: ExcessReportableIncome) -> None:
         """Add excess reportable income to the pool"""
         if not isinstance(purchase, ExcessReportableIncome):
-            raise TypeError(f"{purchase} is not a valid ExcessReportableIncome!")
+            msg = f"{purchase} is not a valid ExcessReportableIncome!"
+            raise TypeError(msg)
         self.datetime = max([self.datetime, purchase.datetime])
         # NB. We do not change the number of units owned
         self.subtotal_ = self.subtotal + purchase.subtotal
@@ -60,7 +63,8 @@ class PooledPurchase(Purchase):
     def add_purchase(self, purchase: Purchase) -> None:
         """Add a purchase to the pool"""
         if not isinstance(purchase, Purchase):
-            raise TypeError(f"{purchase} is not a valid Purchase!")
+            msg = f"{purchase} is not a valid Purchase!"
+            raise TypeError(msg)
         self.datetime = max([self.datetime, purchase.datetime])
         self.units = self.units + purchase.units
         self.subtotal_ = self.subtotal + purchase.subtotal

@@ -131,9 +131,8 @@ class Security:
                     f"{date_prefix} {f'Sold {transaction.units} shares @ {transaction.subtotal} plus {transaction.charges} costs':52} {str(transaction.total):>18s}"
                 )
             else:
-                raise TypeError(
-                    f"Unknown event of type {type(transaction).__name__}:\n {transaction}"
-                )
+                msg = f"Unknown event of type {type(transaction).__name__}:\n {transaction}"
+                raise TypeError(msg)
             logger.info(
                 f"{date_spacing} Pool: {pool.units} shares @ {as_fractional_money(pool.unit_price_inc)} each, cost {str(pool.total)} "
             )
@@ -245,11 +244,11 @@ class Security:
                 logger.debug(f"  {sale}")
                 logger.debug(f"  {disposal}")
                 if sale.total:
-                    raise ValueError(f"Found an unexpected Sale {sale}")
+                    msg = f"Found an unexpected Sale {sale}"
+                    raise ValueError(msg)
                 pool.add_disposal(disposal)
                 self.events_.append((disposal, pool))
             else:
-                raise TypeError(
-                    f"Unknown event of type {type(transaction).__name__}:\n {transaction}"
-                )
+                msg = f"Unknown event of type {type(transaction).__name__}:\n {transaction}"
+                raise TypeError(msg)
             logger.debug(f"Ending transaction with {pool.units} shares in the pool")

@@ -37,9 +37,8 @@ class Account:
 
     def __add__(self, other: "Account") -> "Account":
         if self.currency != other.currency:
-            raise ValueError(
-                f"Cannot add account '{self.name}' with currency {self.currency} to account '{other.name}' with currency {other.currency}"
-            )
+            msg = f"Cannot add account '{self.name}' with currency {self.currency} to account '{other.name}' with currency {other.currency}"
+            raise ValueError(msg)
         output = Account(f"{self.name}-{other.name}", self.currency)
         output.securities = [
             Security(security.symbol, security.name, security.currency, security.isin)

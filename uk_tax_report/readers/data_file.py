@@ -124,5 +124,6 @@ class DataFile:
             ]:
                 pass
             else:
-                raise ValueError(f"Unknown transaction!\n{transaction}")
+                msg = f"Unknown transaction!\n{transaction}"
+                raise TypeError(msg)
         return transactions
