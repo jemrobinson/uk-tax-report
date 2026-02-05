@@ -67,8 +67,6 @@ ignore = [
     "SIM102",   # use a single `if` statement instead of nested `if` statements"
     "TID252",   # prefer absolute imports over relative imports
     "TRY003",   # avoid specifying long messages outside the exception class
-    "TRY004",   # prefer `TypeError` exception for invalid type
-    "UP006",    # use `tuple` instead of `Tuple` for type annotation"
 ]
 
 # Default ignored error codes (rules not enforced by PEP8)

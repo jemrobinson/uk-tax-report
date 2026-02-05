@@ -30,11 +30,11 @@ def exchange(purchases: list[Purchase], sale: Sale) -> tuple[Purchase, Sale, Dis
 def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]:
     """Reconcile a single purchase with a single sale"""
     if not isinstance(purchase, Purchase):
-        raise ValueError(f"{purchase} is not a purchase!")
+        raise TypeError(f"{purchase} is not a purchase!")
     if not isinstance(sale, Sale):
-        raise ValueError(f"{sale} is not a sale!")
+        raise TypeError(f"{sale} is not a sale!")
     if not sale.currency == purchase.currency:
-        raise ValueError(
+        raise TypeError(
             f"Currencies {sale.currency} and {purchase.currency} do not match!"
         )
     residual_units = abs(purchase.units - sale.units)
