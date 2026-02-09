@@ -44,7 +44,6 @@ ignore = [
     "D400",     # first line should end with a period
     "D401",     # first line of docstring should be in imperative mood
     "D415",     # first line should end with a period, question mark, or exclamation point
-    "E501",     # ignore line length
     "FA100",    # add `from __future__ import annotations` to simplify `typing.Union`
     "PLR0913",  # too many arguments in function definition
 ]
