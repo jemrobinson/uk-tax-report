@@ -16,8 +16,9 @@ class CsvDataFile(DataFile):
         super().__init__()
 
         # Read all CSV entries with a valid symbol and security
-        self.df_transactions = pd.read_csv(file_name)
-        self.df_transactions.dropna(subset=["Symbol", "Security"], inplace=True)
+        self.df_transactions = pd.read_csv(file_name).dropna(
+            subset=["Symbol", "Security"]
+        )
 
         # Set datatypes
         self.df_transactions["Date"] = pd.to_datetime(self.df_transactions["Date"])
