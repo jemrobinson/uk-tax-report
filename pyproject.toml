@@ -57,7 +57,6 @@ ignore = [
     "PLR0913",  # too many arguments in function definition
     "PLR0915",  # too many statements
     "PLR2004",  # magic value used in comparison
-    "RET504",   # unnecessary assignment before `return` statement
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]

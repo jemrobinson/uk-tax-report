@@ -148,10 +148,9 @@ def read_xml(file_name: str) -> pd.DataFrame:
     )
 
     # Merge transactions with securities, dropping invalid rows
-    df_all = pd.merge(
+    return pd.merge(
         df_transactions, df_securities, how="outer", left_on="Security", right_on="id"
     )
-    return df_all
 
 
 def ref2name(transaction: ET.Element, df_securities: pd.DataFrame) -> Optional[str]:
