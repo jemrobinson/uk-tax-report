@@ -99,31 +99,31 @@ class Security:
             date_prefix = f"  {transaction.date}:"
             date_spacing = " " * len(date_prefix)
             logger.debug(f"Processing event of type {type(transaction).__name__}:")
-            logger.debug(f"=> {str(transaction)}")
+            logger.debug(f"=> {transaction!s}")
             if transaction.is_null:
-                logger.debug(f"Skipping transaction {str(transaction)}")
+                logger.debug(f"Skipping transaction {transaction!s}")
                 continue
             # Transactions involving purchase (including ExcessReportableIncome and ScripDividend)
             if isinstance(transaction, Purchase):
                 logger.info(
-                    f"{date_prefix} {f'{transaction.type} {transaction.units} shares @ {transaction.subtotal} plus {transaction.charges} costs':52} {str(transaction.total):>18s}"
+                    f"{date_prefix} {f'{transaction.type} {transaction.units} shares @ {transaction.subtotal} plus {transaction.charges} costs':52} {transaction.total!s:>18s}"
                 )
             # Transactions involving a disposal
             elif isinstance(transaction, Disposal):
                 if isinstance(transaction, BedAndBreakfast):
                     logger.info(
-                        f"{date_prefix} {f'Bought {transaction.units} shares (bed-and-breakfast) @ {transaction.unit_price_bought}':52} {str(transaction.purchase_total):>18}"
+                        f"{date_prefix} {f'Bought {transaction.units} shares (bed-and-breakfast) @ {transaction.unit_price_bought}':52} {transaction.purchase_total!s:>18}"
                     )
                     logger.info(
-                        f"{date_spacing} {f'Sold {transaction.units} shares (bed-and-breakfast) @ {transaction.unit_price_sold}':52} {str(transaction.sale_total):>18}"
+                        f"{date_spacing} {f'Sold {transaction.units} shares (bed-and-breakfast) @ {transaction.unit_price_sold}':52} {transaction.sale_total!s:>18}"
                     )
                 else:
                     logger.info(
-                        f"{date_prefix} {f'Sold {transaction.units} shares @ {transaction.unit_price_sold} each':52} {str(transaction.sale_total):>18}"
+                        f"{date_prefix} {f'Sold {transaction.units} shares @ {transaction.unit_price_sold} each':52} {transaction.sale_total!s:>18}"
                     )
                 if start_date <= transaction.datetime.date() <= end_date:
                     logger.info(
-                        f"{date_spacing} {'Resulting gain':74} {str(transaction.gain):>18}"
+                        f"{date_spacing} {'Resulting gain':74} {transaction.gain!s:>18}"
                     )
                 else:
                     logger.info(
@@ -132,13 +132,13 @@ class Security:
             # Transactions involving a sale
             elif isinstance(transaction, Sale):
                 logger.info(
-                    f"{date_prefix} {f'Sold {transaction.units} shares @ {transaction.subtotal} plus {transaction.charges} costs':52} {str(transaction.total):>18s}"
+                    f"{date_prefix} {f'Sold {transaction.units} shares @ {transaction.subtotal} plus {transaction.charges} costs':52} {transaction.total!s:>18s}"
                 )
             else:
                 msg = f"Unknown event of type {type(transaction).__name__}:\n {transaction}"
                 raise TypeError(msg)
             logger.info(
-                f"{date_spacing} Pool: {pool.units} shares @ {as_fractional_money(pool.unit_price_inc)} each, cost {str(pool.total)} "
+                f"{date_spacing} Pool: {pool.units} shares @ {as_fractional_money(pool.unit_price_inc)} each, cost {pool.total!s} "
             )
 
     def report_dividends(
@@ -159,7 +159,7 @@ class Security:
             logger.info(f"{self.name:88s} {f'({self.symbol})':>18s}")
             for transaction in transactions:
                 logger.info(
-                    f"  {transaction.date}: {f'{transaction.type} for {transaction.units} shares @ {as_fractional_money(transaction.unit_price)} each':52} {str(transaction.total):>18}"
+                    f"  {transaction.date}: {f'{transaction.type} for {transaction.units} shares @ {as_fractional_money(transaction.unit_price)} each':52} {transaction.total!s:>18}"
                 )
 
     def resolve_transactions(self) -> None:

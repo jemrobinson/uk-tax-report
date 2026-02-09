@@ -60,7 +60,6 @@ ignore = [
     "PYI041",   # use `float` instead of `int | float`
     "RET504",   # unnecessary assignment before `return` statement
     "RSE102",   # unnecessary parentheses on raised exception
-    "RUF010",   # use explicit conversion flag
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]
