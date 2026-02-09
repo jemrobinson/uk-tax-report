@@ -53,7 +53,6 @@ ignore = [
     "G004",     # logging statement uses f-string
     "PD002",    # `inplace=True` should be avoided; it has inconsistent behavior
     "PD015",    # use `.merge` method instead of `pd.merge` function
-    "PERF203",  # `try`-`except` within a loop incurs performance overhead
     "PLR0913",  # too many arguments in function definition
 ]
 
