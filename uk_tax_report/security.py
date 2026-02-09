@@ -2,7 +2,8 @@
 
 import copy
 import logging
-from datetime import date
+from datetime import MAXYEAR, MINYEAR, date
+from typing import Optional
 
 from moneyed import Currency
 
@@ -63,8 +64,12 @@ class Security:
         self.events_.sort(key=lambda e: e[0].datetime)
         return self.events_
 
-    def is_held(self, start_date: date = None, end_date: date = None) -> bool:
+    def is_held(
+        self, start_date: Optional[date] = None, end_date: Optional[date] = None
+    ) -> bool:
         """Was this security held between the specified dates (inclusive)?"""
+        start_date = start_date or date(MINYEAR, 1, 1)
+        end_date = end_date or date(MAXYEAR, 12, 31)
         # Check whether any units were held on the start date
         events_before = [
             event for event in self.events if event[0].datetime.date() < start_date
@@ -136,9 +141,13 @@ class Security:
                 f"{date_spacing} Pool: {pool.units} shares @ {as_fractional_money(pool.unit_price_inc)} each, cost {str(pool.total)} "
             )
 
-    def report_dividends(self, start_date: date = None, end_date: date = None) -> None:
+    def report_dividends(
+        self, start_date: Optional[date] = None, end_date: Optional[date] = None
+    ) -> None:
         """Produce a dividend and ERI report"""
         # Load all dividend and ERI transactions between the dates
+        start_date = start_date or date(MINYEAR, 1, 1)
+        end_date = end_date or date(MAXYEAR, 12, 31)
         transactions = [
             t
             for t in self.transactions
@@ -160,8 +169,8 @@ class Security:
             f"Resolving {len(self.transactions)} transactions for {self.name} ({self.symbol})"
         )
         sorted_transactions = sorted(self.transactions, key=lambda t: t.datetime)
-        purchases = list(filter(lambda t: isinstance(t, Purchase), sorted_transactions))
-        sales = list(filter(lambda t: isinstance(t, Sale), sorted_transactions))
+        purchases = [t for t in sorted_transactions if isinstance(t, Purchase)]
+        sales = [t for t in sorted_transactions if isinstance(t, Sale)]
         disposals = []
 
         # Under HS285 share reorganisations should count the new shares as being bought at the same time as the old shares
