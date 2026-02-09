@@ -61,7 +61,7 @@ if __name__ == "__main__":
         raise ValueError(
             "Could not interpret '%s' as a UK tax year!" % (args.tax_year or "")
         ) from None
-    logger.debug(f"Set start date ({start_date}) and end date ({end_date})")
+    logger.debug("Set start date (%s) and end date (%s)", start_date, end_date)
 
     if args.csv:
         data = CsvDataFile(args.csv)

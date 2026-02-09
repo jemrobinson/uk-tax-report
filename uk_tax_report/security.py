@@ -91,54 +91,76 @@ class Security:
             return
 
         # Generate the capital gains report
-        logger.info(f"{self.name:88s} {f'({self.symbol})':>18s}")
+        logger.info("%s %s", f"{self.name:88s}", f"{f'({self.symbol})':>18s}")
         for transaction, pool in self.events:
             # Ignore any transactions after the end of the tax year
             if transaction.datetime.date() > end_date:
                 continue
             date_prefix = f"  {transaction.date}:"
             date_spacing = " " * len(date_prefix)
-            logger.debug(f"Processing event of type {type(transaction).__name__}:")
-            logger.debug(f"=> {transaction!s}")
+            logger.debug("Processing event of type %s:", type(transaction).__name__)
+            logger.debug("=> %s", transaction)
             if transaction.is_null:
-                logger.debug(f"Skipping transaction {transaction!s}")
+                logger.debug("Skipping transaction %s", transaction)
                 continue
             # Transactions involving purchase (including ExcessReportableIncome and ScripDividend)
             if isinstance(transaction, Purchase):
                 logger.info(
-                    f"{date_prefix} {f'{transaction.type} {transaction.units} shares @ {transaction.subtotal} plus {transaction.charges} costs':52} {transaction.total!s:>18s}"
+                    "%s %s %s",
+                    date_prefix,
+                    f"{f'{transaction.type} {transaction.units} shares @ {transaction.subtotal} plus {transaction.charges} costs':52}",
+                    f"{transaction.total!s:>18s}",
                 )
             # Transactions involving a disposal
             elif isinstance(transaction, Disposal):
                 if isinstance(transaction, BedAndBreakfast):
                     logger.info(
-                        f"{date_prefix} {f'Bought {transaction.units} shares (bed-and-breakfast) @ {transaction.unit_price_bought}':52} {transaction.purchase_total!s:>18}"
+                        "%s %s %s",
+                        date_prefix,
+                        f"{f'Bought {transaction.units} shares (bed-and-breakfast) @ {transaction.unit_price_bought}':52}",
+                        f"{transaction.purchase_total!s:>18}",
                     )
                     logger.info(
-                        f"{date_spacing} {f'Sold {transaction.units} shares (bed-and-breakfast) @ {transaction.unit_price_sold}':52} {transaction.sale_total!s:>18}"
+                        "%s %s %s",
+                        date_spacing,
+                        f"{f'Sold {transaction.units} shares (bed-and-breakfast) @ {transaction.unit_price_sold}':52}",
+                        f"{transaction.sale_total!s:>18}",
                     )
                 else:
                     logger.info(
-                        f"{date_prefix} {f'Sold {transaction.units} shares @ {transaction.unit_price_sold} each':52} {transaction.sale_total!s:>18}"
+                        "%s %s %s",
+                        date_prefix,
+                        f"{f'Sold {transaction.units} shares @ {transaction.unit_price_sold} each':52}",
+                        f"{transaction.sale_total!s:>18}",
                     )
                 if start_date <= transaction.datetime.date() <= end_date:
                     logger.info(
-                        f"{date_spacing} {'Resulting gain':74} {transaction.gain!s:>18}"
+                        "%s %s %s",
+                        date_spacing,
+                        f"{'Resulting gain':74}",
+                        f"{transaction.gain!s:>18}",
                     )
                 else:
                     logger.info(
-                        f"{date_spacing} Resulting gain applies to another tax year"
+                        "%s Resulting gain applies to another tax year", date_spacing
                     )
             # Transactions involving a sale
             elif isinstance(transaction, Sale):
                 logger.info(
-                    f"{date_prefix} {f'Sold {transaction.units} shares @ {transaction.subtotal} plus {transaction.charges} costs':52} {transaction.total!s:>18s}"
+                    "%s %s %s",
+                    date_prefix,
+                    f"{f'Sold {transaction.units} shares @ {transaction.subtotal} plus {transaction.charges} costs':52}",
+                    f"{transaction.total!s:>18s}",
                 )
             else:
                 msg = f"Unknown event of type {type(transaction).__name__}:\n {transaction}"
                 raise TypeError(msg)
             logger.info(
-                f"{date_spacing} Pool: {pool.units} shares @ {as_fractional_money(pool.unit_price_inc)} each, cost {pool.total!s} "
+                "%s Pool: %d shares @ %s each, cost %s",
+                date_spacing,
+                pool.units,
+                as_fractional_money(pool.unit_price_inc),
+                pool.total,
             )
 
     def report_dividends(
@@ -156,17 +178,23 @@ class Security:
         ]
         # If there are dividends then log them
         if transactions:
-            logger.info(f"{self.name:88s} {f'({self.symbol})':>18s}")
+            logger.info("%s %s", f"{self.name:88s}", f"{f'({self.symbol})':>18s}")
             for transaction in transactions:
                 logger.info(
-                    f"  {transaction.date}: {f'{transaction.type} for {transaction.units} shares @ {as_fractional_money(transaction.unit_price)} each':52} {transaction.total!s:>18}"
+                    "  %s: %s %s",
+                    transaction.date,
+                    f"{f'{transaction.type} for {transaction.units} shares @ {as_fractional_money(transaction.unit_price)} each':52}",
+                    f"{transaction.total!s:>18}",
                 )
 
     def resolve_transactions(self) -> None:  # noqa: PLR0915
         """Resolve all transactions in the list"""
         # Sort transactions and separate into purchases and sales
         logger.debug(
-            f"Resolving {len(self.transactions)} transactions for {self.name} ({self.symbol})"
+            "Resolving %d transactions for %s (%s)",
+            len(self.transactions),
+            self.name,
+            self.symbol,
         )
         sorted_transactions = sorted(self.transactions, key=lambda t: t.datetime)
         purchases = [t for t in sorted_transactions if isinstance(t, Purchase)]
@@ -181,16 +209,16 @@ class Security:
             logger.debug(
                 "Combining sale with previous purchases as this is an exchange under HS285:"
             )
-            logger.debug(f"  {sale}")
+            logger.debug("  %s", sale)
             purchases_ = list(filter(lambda p, d=sale.date: p.date < d, purchases))
             purchase_, sale_, disposal = exchange(purchases_, sale)
-            logger.debug(f"  {purchases_}")
+            logger.debug("  %s", purchases_)
             sales[idx_sale] = sale_
             disposals.append(disposal)
             logger.debug("Result:")
-            logger.debug(f"  {purchase_}")
-            logger.debug(f"  {sale_}")
-            logger.debug(f"  {disposal}")
+            logger.debug("  %s", purchase_)
+            logger.debug("  %s", sale_)
+            logger.debug("  %s", disposal)
 
         # Consider whether each sale must be reconciled against purchases according to HS284
         # First consider same day purchases followed by bed-and-breakfasting against any purchase within 30 days
@@ -203,56 +231,58 @@ class Security:
                 enumerate(purchases),
             ):
                 logger.debug("Combining purchase and sale under HS284:")
-                logger.debug(f"  {purchase}")
-                logger.debug(f"  {sale}")
+                logger.debug("  %s", purchase)
+                logger.debug("  %s", sale)
                 purchase_, sale_, disposal = reconcile(purchase, sale)
                 disposals.append(BedAndBreakfast(disposal))
                 purchases[idx_purchase] = purchase_
                 sales[idx_sale] = sale_
                 logger.debug("Result:")
-                logger.debug(f"  {purchase_}")
-                logger.debug(f"  {sale_}")
-                logger.debug(f"  {disposal}")
+                logger.debug("  %s", purchase_)
+                logger.debug("  %s", sale_)
+                logger.debug("  %s", disposal)
         transactions = [t for t in purchases + sales + disposals if t]
 
         # Each remaining sale can be converted into a disposal against the existing pool
         self.events_ = []
         pool = PooledPurchase(self.currency)
         for transaction in sorted(transactions, key=lambda t: t.datetime):
-            logger.debug(f"Starting a transaction with {pool.units} shares in the pool")
+            logger.debug(
+                "Starting a transaction with %d shares in the pool", pool.units
+            )
             pool = copy.deepcopy(pool)
             if isinstance(transaction, ExcessReportableIncome):
                 logger.debug(
-                    f"=> Found a {type(transaction).__name__} on {transaction.date}:"
+                    "=> Found a %s on %s:", type(transaction).__name__, transaction.date
                 )
-                logger.debug(f"  {transaction}")
+                logger.debug("  %s", transaction)
                 pool.add_eri(transaction)
                 self.events.append((transaction, pool))
             elif isinstance(transaction, Purchase):
                 logger.debug(
-                    f"=> Found a {type(transaction).__name__} on {transaction.date}:"
+                    "=> Found a %s on %s:", type(transaction).__name__, transaction.date
                 )
-                logger.debug(f"  {transaction}")
+                logger.debug("  %s", transaction)
                 pool.add_purchase(transaction)
                 self.events.append((transaction, pool))
             elif isinstance(transaction, BedAndBreakfast):
-                logger.debug(f"=> Found a BedAndBreakfast on {transaction.date}:")
-                logger.debug(f"  {transaction}")
+                logger.debug("=> Found a BedAndBreakfast on %s:", transaction.date)
+                logger.debug("  %s", transaction)
                 pool.add_bed_and_breakfast(transaction)
                 self.events_.append((transaction, pool))
             elif isinstance(transaction, Disposal):
-                logger.debug(f"=> Found a Disposal on {transaction.date}:")
-                logger.debug(f"  {transaction}")
+                logger.debug("=> Found a Disposal on %s:", transaction.date)
+                logger.debug("  %s", transaction)
                 pool.add_disposal(transaction)
                 self.events_.append((transaction, pool))
             elif isinstance(transaction, Sale):
-                logger.debug(f"=> Found a Sale on {transaction.date}:")
-                logger.debug(f"  {transaction}")
+                logger.debug("=> Found a Sale on %s:", transaction.date)
+                logger.debug("  %s", transaction)
                 logger.debug("... reconciling against pool to give:")
                 purchase, sale, disposal = reconcile(pool, transaction)
-                logger.debug(f"  {purchase}")
-                logger.debug(f"  {sale}")
-                logger.debug(f"  {disposal}")
+                logger.debug("  %s", purchase)
+                logger.debug("  %s", sale)
+                logger.debug("  %s", disposal)
                 if sale.total:
                     msg = f"Found an unexpected Sale {sale}"
                     raise ValueError(msg)
@@ -261,4 +291,4 @@ class Security:
             else:
                 msg = f"Unknown event of type {type(transaction).__name__}:\n {transaction}"
                 raise TypeError(msg)
-            logger.debug(f"Ending transaction with {pool.units} shares in the pool")
+            logger.debug("Ending transaction with %d shares in the pool", pool.units)

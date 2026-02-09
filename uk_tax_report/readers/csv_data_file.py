@@ -28,4 +28,4 @@ class CsvDataFile(DataFile):
         self.df_transactions["Amount"] = self.df_transactions["Amount"].str.replace(
             ",", ""
         )
-        logger.debug(f"Processing {self.df_transactions.shape[0]} transactions...")
+        logger.debug("Processing %d transactions...", self.df_transactions.shape[0])

@@ -85,16 +85,24 @@ class Account:
         """Report tax summary for this account"""
         # Restrict to specified accounts
         logger.info(
-            f"Account '{self.name}' has {len(self.transactions)} transactions across {len(self.securities)} securities"
+            "Account '%s' has %d transactions across %d securities",
+            self.name,
+            len(self.transactions),
+            len(self.securities),
         )
 
         # Holdings
         logger.info(
-            f"Listing holdings during UK tax year {start_date.year}-{end_date.year}..."
+            "Listing holdings during UK tax year %s-%s...",
+            start_date.year,
+            end_date.year,
         )
         for security in sorted(self.holdings(start_date, end_date)):
             logger.info(
-                f"  {f'[{security.isin}]':14} {f'[{security.symbol}]':15} {security.name}"
+                "  %s %s %s",
+                f"{f'[{security.isin}]':14}",
+                f"{f'[{security.symbol}]':15}",
+                security.name,
             )
         relevant_securities = (
             sorted(self.securities, key=lambda s: s.name)
@@ -104,14 +112,18 @@ class Account:
 
         # Capital gains
         logger.info(
-            f"Looking for capital gains during UK tax year {start_date.year}-{end_date.year}..."
+            "Looking for capital gains during UK tax year %s-%s...",
+            start_date.year,
+            end_date.year,
         )
         for security in relevant_securities:
             security.report_capital_gains(start_date, end_date)
 
         # Dividends and ERIs
         logger.info(
-            f"Looking for dividends and ERIs during UK tax year {start_date.year}-{end_date.year}..."
+            "Looking for dividends and ERIs during UK tax year %s-%s...",
+            start_date.year,
+            end_date.year,
         )
         for security in relevant_securities:
             security.report_dividends(start_date, end_date)

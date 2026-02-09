@@ -40,7 +40,9 @@ def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]
     residual_units = abs(purchase.units - sale.units)
     if purchase.units > sale.units:
         # In this case we are selling part of the purchase => the entire sale is consumed
-        logger.debug(f"Selling part of the purchase: {sale.units} of {purchase.units}")
+        logger.debug(
+            "Selling part of the purchase: %d of %d", sale.units, purchase.units
+        )
         sale_ = Sale(sale.datetime, sale.currency)
         disposal = Disposal(
             sale.datetime,
@@ -73,7 +75,9 @@ def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]
     elif purchase.units < sale.units:
         # In this case we are selling more than the entire purchase => the entire purchase is consumed
         logger.debug(
-            f"Selling more than the entire purchase: {sale.units} of {purchase.units}"
+            "Selling more than the entire purchase: %d of %d",
+            sale.units,
+            purchase.units,
         )
         purchase_ = Purchase(purchase.datetime, purchase.currency)
         disposal = Disposal(
@@ -106,7 +110,9 @@ def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]
         )
     else:
         # In this case we are selling the entire purchase => the entire purchase and sale are consumed
-        logger.debug(f"Selling the entire purchase: {sale.units} of {purchase.units}")
+        logger.debug(
+            "Selling the entire purchase: %d of %d", sale.units, purchase.units
+        )
         sale_ = Sale(sale.datetime, sale.currency)
         purchase_ = Purchase(purchase.datetime, purchase.currency)
         disposal = Disposal(

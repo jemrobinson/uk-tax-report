@@ -21,4 +21,4 @@ class XmlDataFile(DataFile):
 
         # Set datatypes
         self.df_transactions["Date"] = pd.to_datetime(self.df_transactions["Date"])
-        logger.debug(f"Processing {self.df_transactions.shape[0]} transactions...")
+        logger.debug("Processing %d transactions...", self.df_transactions.shape[0])
