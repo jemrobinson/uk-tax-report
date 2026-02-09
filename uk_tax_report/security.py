@@ -162,7 +162,7 @@ class Security:
                     f"  {transaction.date}: {f'{transaction.type} for {transaction.units} shares @ {as_fractional_money(transaction.unit_price)} each':52} {transaction.total!s:>18}"
                 )
 
-    def resolve_transactions(self) -> None:
+    def resolve_transactions(self) -> None:  # noqa: PLR0915
         """Resolve all transactions in the list"""
         # Sort transactions and separate into purchases and sales
         logger.debug(

@@ -55,7 +55,6 @@ ignore = [
     "PD015",    # use `.merge` method instead of `pd.merge` function
     "PERF203",  # `try`-`except` within a loop incurs performance overhead
     "PLR0913",  # too many arguments in function definition
-    "PLR0915",  # too many statements
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]
