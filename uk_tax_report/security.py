@@ -197,7 +197,9 @@ class Security:
         # Date-ordering any purchases between 0 and 30 days following the sale will automatically apply this
         for idx_sale, sale in enumerate(sales):
             for idx_purchase, purchase in filter(
-                lambda ptuple, d=sale.date: 0 <= (ptuple[1].date - d).days <= 30,
+                lambda ptuple, d=sale.date: 0
+                <= (ptuple[1].date - d).days
+                <= BedAndBreakfast.TIME_LIMIT_DAYS,
                 enumerate(purchases),
             ):
                 logger.debug("Combining purchase and sale under HS284:")

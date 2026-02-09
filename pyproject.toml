@@ -56,7 +56,6 @@ ignore = [
     "PERF203",  # `try`-`except` within a loop incurs performance overhead
     "PLR0913",  # too many arguments in function definition
     "PLR0915",  # too many statements
-    "PLR2004",  # magic value used in comparison
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]

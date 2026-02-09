@@ -6,6 +6,8 @@ from .disposal import Disposal
 class BedAndBreakfast(Disposal):
     """A disposal where the buying/selling are within 30 days"""
 
+    TIME_LIMIT_DAYS = 30
+
     def __init__(self, disposal: Disposal):
         super().__init__(
             disposal.datetime,
