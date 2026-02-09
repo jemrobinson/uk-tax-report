@@ -18,9 +18,9 @@ class Transaction(ABC):
         date_time: Union[str, datetime],
         currency: Union[str, Currency],
         units: int = 0,
-        subtotal: Union[int, float, Money] = 0,
-        fees: Union[int, float, Money] = 0,
-        taxes: Union[int, float, Money] = 0,
+        subtotal: Union[float, Money] = 0,
+        fees: Union[float, Money] = 0,
+        taxes: Union[float, Money] = 0,
         note: str = "",
     ):
         self.datetime: datetime = as_datetime(date_time)
