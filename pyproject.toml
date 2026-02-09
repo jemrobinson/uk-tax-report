@@ -59,7 +59,6 @@ ignore = [
     "PLR2004",  # magic value used in comparison
     "PYI041",   # use `float` instead of `int | float`
     "RET504",   # unnecessary assignment before `return` statement
-    "RSE102",   # unnecessary parentheses on raised exception
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]

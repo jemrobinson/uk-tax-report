@@ -1,16 +1,16 @@
 """Definition of the Transaction class"""
 
-# Standard library imports
+from abc import ABC, abstractmethod
 from datetime import date, datetime
 from decimal import Decimal
-from typing import Union
+from typing import Optional, Union
 
 from moneyed import Currency, Money
 
 from uk_tax_report.converters import abs_divide, as_currency, as_datetime, as_money
 
 
-class Transaction:
+class Transaction(ABC):
     """Transaction where money is exchanged for a security"""
 
     def __init__(
@@ -30,7 +30,7 @@ class Transaction:
         self.fees: Money = as_money(fees, self.currency)
         self.taxes: Money = as_money(taxes, self.currency)
         self.note: str = str(note)
-        self.type: str = None
+        self.type: Optional[str] = None
 
     @property
     def date(self) -> date:
@@ -68,9 +68,10 @@ class Transaction:
         return self.subtotal_
 
     @property
+    @abstractmethod
     def total(self) -> Money:
         """Total must be implemented by child classes"""
-        raise NotImplementedError()
+        ...
 
     @property
     def is_null(self) -> bool:

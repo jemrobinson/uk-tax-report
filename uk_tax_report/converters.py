@@ -2,21 +2,21 @@
 
 import datetime
 from contextlib import suppress
-from decimal import InvalidOperation
+from decimal import Decimal, InvalidOperation
 from math import isnan
-from typing import Any
+from typing import Any, Union
 
 from dateutil.parser import parse
 from moneyed import Currency, CurrencyDoesNotExist, Money, format_money, get_currency
 
 
-def abs_divide(money: Money, number: float) -> Money:
+def abs_divide(money: Money, number: Union[float, Decimal]) -> Money:
     """
     The absolute value of dividing Money by a number.
     Returns 0 if there is an invalid division.
     """
     try:
-        result = abs(money / number)
+        result = abs(money / float(number))
     except (ZeroDivisionError, InvalidOperation):
         result = Money(0, money.currency)
     return result
