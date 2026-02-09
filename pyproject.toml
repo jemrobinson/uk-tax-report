@@ -62,7 +62,6 @@ ignore = [
     "RSE102",   # unnecessary parentheses on raised exception
     "RUF010",   # use explicit conversion flag
     "RUF013",   # PEP 484 prohibits implicit `Optional`
-    "RUF015",   # Prefer `next()` over single element slice
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]

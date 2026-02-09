@@ -74,50 +74,52 @@ def get_transactions(root: ET.Element, account_id, df_securities):
             f"*//portfolio[name='{account_id}']/transactions/portfolio-transaction"
         )
     ):
-        if s_shares := get_first(transaction, "shares") is None:
-            continue
-        if s_total := get_first(transaction, "amount") is None:
-            continue
-        date = get_first(transaction, "date")
-        shares = Decimal(s_shares) / 100000000
-        type_ = get_first(transaction, "type")
-        security_id = ref2name(transaction, df_securities)
-        fees, taxes = 0, 0
-        for charge in transaction.findall("./units/unit"):
-            if charge.attrib["type"] == "FEE":
-                fees += (
-                    Decimal(
-                        [c for c in charge if c.tag == "amount"][0].attrib["amount"]
+        with suppress(TypeError):
+            date = get_first(transaction, "date")
+            shares = Decimal(get_first(transaction, "shares")) / 100000000
+            type_ = get_first(transaction, "type")
+            security_id = ref2name(transaction, df_securities)
+            fees, taxes = 0, 0
+            for charge in transaction.findall("./units/unit"):
+                if charge.attrib["type"] == "FEE":
+                    fees += (
+                        Decimal(
+                            next(c for c in charge if c.tag == "amount").attrib[
+                                "amount"
+                            ]
+                        )
+                        / 100
                     )
-                    / 100
-                )
-            if charge.attrib["type"] == "TAX":
-                taxes += (
-                    Decimal(
-                        [c for c in charge if c.tag == "amount"][0].attrib["amount"]
+                if charge.attrib["type"] == "TAX":
+                    taxes += (
+                        Decimal(
+                            next(c for c in charge if c.tag == "amount").attrib[
+                                "amount"
+                            ]
+                        )
+                        / 100
                     )
-                    / 100
+            # Raw total includes fees and taxes
+            total = Decimal(get_first(transaction, "amount")) / 100
+            if type_ == "BUY":
+                total -= fees + taxes
+            else:
+                total += fees + taxes
+            note = get_first(transaction, "note") or ""
+            if security_id:
+                transactions.append(
+                    {
+                        "Date": date,
+                        "Type": type_,
+                        "Security": security_id,
+                        "Shares": shares,
+                        "Amount": abs(total),
+                        "Fees": abs(fees),
+                        "Taxes": abs(taxes),
+                        "Cash Account": account_id,
+                        "Note": note,
+                    }
                 )
-        total = Decimal(s_total) / 100  # this includes fees and taxes
-        if type_ == "BUY":
-            total -= fees + taxes
-        else:
-            total += fees + taxes
-        note = get_first(transaction, "note") or ""
-        if security_id:
-            transactions.append(
-                {
-                    "Date": date,
-                    "Type": type_,
-                    "Security": security_id,
-                    "Shares": shares,
-                    "Amount": abs(total),
-                    "Fees": abs(fees),
-                    "Taxes": abs(taxes),
-                    "Cash Account": account_id,
-                    "Note": note,
-                }
-            )
     return pd.DataFrame(transactions).drop_duplicates()
 
 
