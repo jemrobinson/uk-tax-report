@@ -80,7 +80,7 @@ class Account:
         ]
 
     def report(
-        self, start_date: date, end_date: date, include_non_taxable: bool = False
+        self, start_date: date, end_date: date, *, include_non_taxable: bool = False
     ):
         """Report tax summary for this account"""
         # Restrict to specified accounts
