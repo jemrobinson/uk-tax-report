@@ -65,7 +65,11 @@ class Account:
     @property
     def transactions(self) -> list[Transaction]:
         """List of transactions in this account"""
-        return sum([security.transactions for security in self.securities], [])
+        return [
+            transaction
+            for security in self.securities
+            for transaction in security.transactions
+        ]
 
     def holdings(self, start_date: date, end_date: date) -> list[Security]:
         """List of securities held between these dates"""

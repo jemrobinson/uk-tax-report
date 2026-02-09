@@ -63,7 +63,6 @@ ignore = [
     "RUF010",   # use explicit conversion flag
     "RUF013",   # PEP 484 prohibits implicit `Optional`
     "RUF015",   # Prefer `next()` over single element slice
-    "RUF017",   # avoid quadratic list summation"
 ]
 
 [tool.ruff.lint.flake8-tidy-imports]
