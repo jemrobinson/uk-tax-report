@@ -34,16 +34,14 @@ class Disposal(Transaction):
     @property
     def subtotal(self) -> Money:
         """Subtotal is not a valid property for this class"""
-        raise NotImplementedError(
-            "Subtotal is not a valid property for the Disposal class"
-        )
+        msg = "Subtotal is not a valid property for the Disposal class"
+        raise NotImplementedError(msg)
 
     @property
     def total(self) -> Money:
         """Total is not a valid property for this class"""
-        raise NotImplementedError(
-            "Total is not a valid property for the Disposal class"
-        )
+        msg = "Total is not a valid property for the Disposal class"
+        raise NotImplementedError(msg)
 
     @property
     def unit_price_sold(self) -> Money:
