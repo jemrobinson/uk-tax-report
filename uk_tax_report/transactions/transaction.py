@@ -1,4 +1,4 @@
-"""Definition of the Transaction class"""
+"""Definition of the Transaction class."""
 
 from abc import ABC, abstractmethod
 from datetime import date, datetime
@@ -11,7 +11,7 @@ from uk_tax_report.converters import abs_divide, as_currency, as_datetime, as_mo
 
 
 class Transaction(ABC):
-    """Transaction where money is exchanged for a security"""
+    """Transaction where money is exchanged for a security."""
 
     def __init__(
         self,
@@ -34,32 +34,32 @@ class Transaction(ABC):
 
     @property
     def date(self) -> date:
-        """Date of transaction"""
+        """Date of transaction."""
         return self.datetime.date()
 
     @property
     def unit_price(self) -> Money:
-        """Base price paid per unit in this transaction"""
+        """Base price paid per unit in this transaction."""
         return abs_divide(self.subtotal, self.units)
 
     @property
     def unit_fees(self) -> Money:
-        """Fees paid per unit in this transaction"""
+        """Fees paid per unit in this transaction."""
         return abs_divide(self.fees, self.units)
 
     @property
     def unit_taxes(self) -> Money:
-        """Taxes paid per unit in this transaction"""
+        """Taxes paid per unit in this transaction."""
         return abs_divide(self.taxes, self.units)
 
     @property
     def unit_price_inc(self) -> Money:
-        """Total price paid per unit in this transaction"""
+        """Total price paid per unit in this transaction."""
         return abs_divide(self.total, self.units)
 
     @property
     def charges(self) -> Money:
-        """Total charges paid in this transaction"""
+        """Total charges paid in this transaction."""
         return self.fees + self.taxes
 
     @property
@@ -70,12 +70,12 @@ class Transaction(ABC):
     @property
     @abstractmethod
     def total(self) -> Money:
-        """Total must be implemented by child classes"""
+        """Total must be implemented by child classes."""
         ...
 
     @property
     def is_null(self) -> bool:
-        """Whether this is a null transaction"""
+        """Whether this is a null transaction."""
         return (self.total == self.currency.zero) and (self.units == 0)
 
     def __str__(self) -> str:

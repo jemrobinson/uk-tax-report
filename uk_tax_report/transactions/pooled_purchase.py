@@ -1,4 +1,4 @@
-"""Definition of the PooledPurchase class"""
+"""Definition of the PooledPurchase class."""
 
 from moneyed import Currency
 
@@ -9,7 +9,7 @@ from .purchase import Purchase
 
 
 class PooledPurchase(Purchase):
-    """Combination of several transactions"""
+    """Combination of several transactions."""
 
     def __init__(self, currency: Currency, **kwargs):
         kwargs["date_time"] = kwargs.get("date_time", "0001-01-01")
@@ -18,7 +18,7 @@ class PooledPurchase(Purchase):
 
     @classmethod
     def from_purchase(cls, purchase: Purchase, currency: Currency) -> "PooledPurchase":
-        """Create a PooledPurchase from a Purchase"""
+        """Create a PooledPurchase from a Purchase."""
         if not purchase:
             return cls(currency)
         return cls(
@@ -31,7 +31,7 @@ class PooledPurchase(Purchase):
         )
 
     def add_bed_and_breakfast(self, bed_and_breakfast: BedAndBreakfast) -> None:
-        """Add a bed-and-breakfast to the pool"""
+        """Add a bed-and-breakfast to the pool."""
         if not isinstance(bed_and_breakfast, BedAndBreakfast):
             msg = f"{bed_and_breakfast} is not a valid BedAndBreakfast!"
             raise TypeError(msg)
@@ -39,7 +39,7 @@ class PooledPurchase(Purchase):
         self.subtotal_ = self.subtotal + bed_and_breakfast.gain
 
     def add_disposal(self, disposal: Disposal) -> None:
-        """Add a disposal to the pool"""
+        """Add a disposal to the pool."""
         if not isinstance(disposal, Disposal):
             msg = f"{disposal} is not a valid Purchase!"
             raise TypeError(msg)
@@ -50,7 +50,7 @@ class PooledPurchase(Purchase):
         self.taxes = self.taxes + disposal.taxes
 
     def add_eri(self, purchase: ExcessReportableIncome) -> None:
-        """Add excess reportable income to the pool"""
+        """Add excess reportable income to the pool."""
         if not isinstance(purchase, ExcessReportableIncome):
             msg = f"{purchase} is not a valid ExcessReportableIncome!"
             raise TypeError(msg)
@@ -61,7 +61,7 @@ class PooledPurchase(Purchase):
         self.taxes = self.taxes + purchase.taxes
 
     def add_purchase(self, purchase: Purchase) -> None:
-        """Add a purchase to the pool"""
+        """Add a purchase to the pool."""
         if not isinstance(purchase, Purchase):
             msg = f"{purchase} is not a valid Purchase!"
             raise TypeError(msg)

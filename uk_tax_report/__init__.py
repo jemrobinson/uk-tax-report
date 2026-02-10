@@ -1,4 +1,4 @@
-"""Capital Gains Calculator"""
+"""Capital Gains Calculator."""
 
 from .account import Account
 from .security import Security

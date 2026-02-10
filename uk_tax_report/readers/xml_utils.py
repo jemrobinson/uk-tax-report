@@ -1,4 +1,4 @@
-"""Utility functions for reading PortfolioPerformance XML files"""
+"""Utility functions for reading PortfolioPerformance XML files."""
 
 import re
 import xml.etree.ElementTree as ET
@@ -12,7 +12,7 @@ from defusedxml.ElementTree import parse
 
 
 def get_accounts(root: ET.Element) -> pd.DataFrame:
-    """Get accounts"""
+    """Get accounts."""
     accounts = []
     for account in (
         root.findall("*//account[uuid]")
@@ -26,7 +26,7 @@ def get_accounts(root: ET.Element) -> pd.DataFrame:
 
 
 def get_first(node: ET.Element, match: str) -> Optional[str]:
-    """Get the full text from the first node containing the requested string"""
+    """Get the full text from the first node containing the requested string."""
     for element in node.findall(match):
         if element.text is not None:
             return element.text
@@ -34,7 +34,7 @@ def get_first(node: ET.Element, match: str) -> Optional[str]:
 
 
 def get_securities(root: ET.Element):
-    """Get securities"""
+    """Get securities."""
     securities = []
     for security in iterate_elements(root.findall("securities")):
         if (name := get_first(security, "name")) is None:
@@ -58,7 +58,7 @@ def get_securities(root: ET.Element):
 
 
 def get_transactions(root: ET.Element, account_id, df_securities):
-    """Get transactions"""
+    """Get transactions."""
     transactions = []
     for transaction in (
         root.findall(
@@ -124,13 +124,13 @@ def get_transactions(root: ET.Element, account_id, df_securities):
 
 
 def iterate_elements(element_list: list[ET.Element]) -> Iterable[ET.Element]:
-    """Iterate through a list of XML elements, yielding all sub-elements"""
+    """Iterate through a list of XML elements, yielding all sub-elements."""
     for element in element_list:
         yield from element
 
 
 def read_xml(file_name: str) -> pd.DataFrame:
-    """Read a PortfolioPerformance XML file into a Pandas dataframe"""
+    """Read a PortfolioPerformance XML file into a Pandas dataframe."""
     # Read all XML entries with a valid symbol and security
     tree = parse(file_name)
     if (root := tree.getroot()) is None:
@@ -157,7 +157,7 @@ def read_xml(file_name: str) -> pd.DataFrame:
 
 
 def ref2name(transaction: ET.Element, df_securities: pd.DataFrame) -> Optional[str]:
-    """Find the security name corresponding to a given reference"""
+    """Find the security name corresponding to a given reference."""
     index = None
     if not (
         references := [

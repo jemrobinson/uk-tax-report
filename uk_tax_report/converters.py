@@ -1,4 +1,4 @@
-"""General utility functions for converting between types"""
+"""General utility functions for converting between types."""
 
 import datetime
 from contextlib import suppress
@@ -23,7 +23,7 @@ def abs_divide(money: Money, number: Union[float, Decimal]) -> Money:
 
 
 def as_currency(data: Any) -> Currency:
-    """Convert arbitrary data into Currency"""
+    """Convert arbitrary data into Currency."""
     if isinstance(data, Currency):
         return data
     with suppress(CurrencyDoesNotExist):
@@ -34,19 +34,19 @@ def as_currency(data: Any) -> Currency:
 
 
 def as_datetime(data: Any) -> datetime.datetime:
-    """Convert arbitrary data into a datetime"""
+    """Convert arbitrary data into a datetime."""
     if isinstance(data, datetime.datetime):
         return data
     return parse(data)
 
 
 def as_fractional_money(money: Money) -> str:
-    """Convert Money to a formatted string"""
+    """Convert Money to a formatted string."""
     return format_money(money, format="\xa4#.####", currency_digits=False)
 
 
 def as_money(data: Any, currency: Currency) -> Money:
-    """Convert arbitrary data into Money"""
+    """Convert arbitrary data into Money."""
     if isinstance(data, Money):
         return data
     if isnan(float(data)):

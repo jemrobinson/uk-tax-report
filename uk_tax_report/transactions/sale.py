@@ -1,10 +1,10 @@
-"""Definition of the Sale class"""
+"""Definition of the Sale class."""
 
 from .credit_debit import CreditTransaction
 
 
 class Sale(CreditTransaction):
-    """Transaction where a security is sold"""
+    """Transaction where a security is sold."""
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

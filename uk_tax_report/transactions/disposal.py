@@ -1,4 +1,4 @@
-"""Definition of the Disposal class"""
+"""Definition of the Disposal class."""
 
 from moneyed import Money
 
@@ -8,7 +8,7 @@ from .transaction import Transaction
 
 
 class Disposal(Transaction):
-    """A combined purchase and sale"""
+    """A combined purchase and sale."""
 
     def __init__(  # type: ignore[too-many-positional-arguments]
         self,
@@ -33,34 +33,34 @@ class Disposal(Transaction):
 
     @property
     def subtotal(self) -> Money:
-        """Subtotal is not a valid property for this class"""
-        msg = "Subtotal is not a valid property for the Disposal class"
+        """Subtotal is not a valid property for this class."""
+        msg = "Subtotal is not a valid property for the Disposal class."
         raise NotImplementedError(msg)
 
     @property
     def total(self) -> Money:
-        """Total is not a valid property for this class"""
-        msg = "Total is not a valid property for the Disposal class"
+        """Total is not a valid property for this class."""
+        msg = "Total is not a valid property for the Disposal class."
         raise NotImplementedError(msg)
 
     @property
     def unit_price_sold(self) -> Money:
-        """The unit price at which the units were sold"""
+        """The unit price at which the units were sold."""
         return abs_divide(self.sale_total, self.units)
 
     @property
     def unit_price_bought(self) -> Money:
-        """The unit price at which the units were bought"""
+        """The unit price at which the units were bought."""
         return abs_divide(self.purchase_total, self.units)
 
     @property
     def gain(self) -> Money:
-        """The capital gain made upon sale"""
+        """The capital gain made upon sale."""
         return self.sale_total - self.purchase_total
 
     @property
     def is_null(self) -> bool:
-        """Whether this is a null transaction"""
+        """Whether this is a null transaction."""
         return (self.sale_total == self.currency.zero) and (
             self.purchase_total == self.currency.zero
         )

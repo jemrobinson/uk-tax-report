@@ -1,4 +1,4 @@
-"""Definition of the ExcessReportableIncome class"""
+"""Definition of the ExcessReportableIncome class."""
 
 from datetime import datetime
 

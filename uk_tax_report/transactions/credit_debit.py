@@ -1,4 +1,4 @@
-"""Definition of the CreditTransaction and DebitTransaction classes"""
+"""Definition of the CreditTransaction and DebitTransaction classes."""
 
 from moneyed import Money
 
@@ -6,18 +6,18 @@ from .transaction import Transaction
 
 
 class CreditTransaction(Transaction):
-    """Transaction where money is received"""
+    """Transaction where money is received."""
 
     @property
     def total(self) -> Money:
-        """Total value received in this transaction"""
+        """Total value received in this transaction."""
         return self.subtotal - self.charges
 
 
 class DebitTransaction(Transaction):
-    """Transaction where money is paid"""
+    """Transaction where money is paid."""
 
     @property
     def total(self) -> Money:
-        """Total value paid in this transaction"""
+        """Total value paid in this transaction."""
         return self.subtotal + self.charges

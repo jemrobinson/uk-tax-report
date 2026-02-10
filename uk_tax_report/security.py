@@ -1,4 +1,4 @@
-"""Definition of the Security class"""
+"""Definition of the Security class."""
 
 import copy
 import logging
@@ -24,7 +24,7 @@ logger = logging.getLogger(__name__)
 
 
 class Security:
-    """Representation of a single security and associated transactions"""
+    """Representation of a single security and associated transactions."""
 
     def __init__(self, symbol: str, name: str, currency: Currency, isin: str = ""):
         self.currency = currency
@@ -47,20 +47,18 @@ class Security:
         return self.name < other.name
 
     def add_transactions(self, transactions: list[Transaction]) -> None:
-        """Add new transactions then resolve them together with existing transactions"""
-        # Add new transactions
+        """Add new transactions then resolve them with existing transactions."""
         self.transactions += transactions
-        # Resolve all transactions
         self.resolve_transactions()
 
     @property
     def disposals(self) -> list[tuple[Transaction, PooledPurchase]]:
-        """List of all disposals"""
+        """List of all disposals."""
         return [e for e in self.events if isinstance(e[0], Disposal)]
 
     @property
     def events(self) -> list[tuple[Transaction, PooledPurchase]]:
-        """Return sorted events"""
+        """Return sorted events."""
         self.events_.sort(key=lambda e: e[0].datetime)
         return self.events_
 
@@ -88,7 +86,7 @@ class Security:
         return False
 
     def report_capital_gains(self, start_date: date, end_date: date) -> None:
-        """Produce a capital gains report"""
+        """Produce a capital gains report."""
         # If there are no disposals in the time range there can be no capital gains
         if not any(start_date <= d[0].date <= end_date for d in self.disposals):
             return
@@ -176,7 +174,7 @@ class Security:
         start_date: Optional[date] = None,
         end_date: Optional[date] = None,
     ) -> None:
-        """Produce a dividend and ERI report"""
+        """Produce a dividend and ERI report."""
         # Load all dividend and ERI transactions between the dates
         start_date = start_date or date(MINYEAR, 1, 1)
         end_date = end_date or date(MAXYEAR, 12, 31)
@@ -198,7 +196,7 @@ class Security:
                 )
 
     def resolve_transactions(self) -> None:  # noqa: PLR0915
-        """Resolve all transactions in the list"""
+        """Resolve all transactions in the list."""
         # Sort transactions and separate into purchases and sales
         logger.debug(
             "Resolving %d transactions for %s (%s)",

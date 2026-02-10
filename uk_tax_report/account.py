@@ -1,4 +1,4 @@
-"""Definition of the Account class"""
+"""Definition of the Account class."""
 
 import logging
 from datetime import date
@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 
 
 class Account:
-    """Account containing several transactions"""
+    """Account containing several transactions."""
 
     def __init__(self, name: str, currency: str, data: Optional[DataFile] = None):
         self.name = name
@@ -60,7 +60,7 @@ class Account:
 
     @property
     def taxable_securities(self) -> list[Security]:
-        """List of securities excluding any VCTs"""
+        """List of securities excluding any VCTs."""
         return sorted(
             [s for s in self.securities if "VCT" not in s.name],
             key=lambda s: s.name,
@@ -68,7 +68,7 @@ class Account:
 
     @property
     def transactions(self) -> list[Transaction]:
-        """List of transactions in this account"""
+        """List of transactions in this account."""
         return [
             transaction
             for security in self.securities
@@ -76,7 +76,7 @@ class Account:
         ]
 
     def holdings(self, start_date: date, end_date: date) -> list[Security]:
-        """List of securities held between these dates"""
+        """List of securities held between these dates."""
         return [
             security
             for security in self.securities
@@ -90,7 +90,7 @@ class Account:
         *,
         include_non_taxable: bool = False,
     ):
-        """Report tax summary for this account"""
+        """Report tax summary for this account."""
         # Restrict to specified accounts
         logger.info(
             "Account '%s' has %d transactions across %d securities",

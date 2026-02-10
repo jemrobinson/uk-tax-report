@@ -1,10 +1,10 @@
-"""Definition of the BedAndBreakfast class"""
+"""Definition of the BedAndBreakfast class."""
 
 from .disposal import Disposal
 
 
 class BedAndBreakfast(Disposal):
-    """A disposal where the buying/selling are within 30 days"""
+    """A disposal where the buying/selling are within 30 days."""
 
     TIME_LIMIT_DAYS = 30
 

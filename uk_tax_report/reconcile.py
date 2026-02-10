@@ -1,4 +1,4 @@
-"""Utility functions related to reconciling transactions"""
+"""Utility functions related to reconciling transactions."""
 
 import logging
 
@@ -29,7 +29,7 @@ def exchange(purchases: list[Purchase], sale: Sale) -> tuple[Purchase, Sale, Dis
 
 
 def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]:
-    """Reconcile a single purchase with a single sale"""
+    """Reconcile a single purchase with a single sale."""
     if not isinstance(purchase, Purchase):
         msg = f"{purchase} is not a purchase!"
         raise TypeError(msg)

@@ -1,4 +1,4 @@
-"""Definition of the Reader class"""
+"""Definition of the DataFile class."""
 
 import pandas as pd
 from moneyed import Currency
@@ -14,14 +14,14 @@ from uk_tax_report.transactions import (
 
 
 class DataFile:
-    """Read a PortfolioPerformance data file"""
+    """Read a PortfolioPerformance data file."""
 
     def __init__(self):
         self.df_transactions: pd.DataFrame
 
     @property
     def account_names(self) -> set[str]:
-        """List of account names"""
+        """List of account names."""
         return set(self.df_transactions["Cash Account"])
 
     @property
@@ -48,7 +48,7 @@ class DataFile:
         security_name: str,
         currency: Currency,
     ) -> list[Transaction]:
-        """List of all transactions for a given account and security"""
+        """List of all transactions for a given account and security."""
         transactions = []
         for _, transaction in self.df_transactions.loc[
             (self.df_transactions["Cash Account"] == account_name)

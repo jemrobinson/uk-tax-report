@@ -1,4 +1,4 @@
-"""Definition of the XmlReader class"""
+"""Definition of the XmlDataFile class."""
 
 import logging
 
@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class XmlDataFile(DataFile):
-    """Read a PortfolioPerformance XML file"""
+    """Read a PortfolioPerformance XML file."""
 
     def __init__(self, file_name: str):
         super().__init__()

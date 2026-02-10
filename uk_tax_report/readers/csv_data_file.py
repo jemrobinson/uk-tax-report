@@ -1,4 +1,4 @@
-"""Definition of the CsvReader class"""
+"""Definition of the CsvDataFile class."""
 
 import logging
 
@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 class CsvDataFile(DataFile):
-    """Read a PortfolioPerformance CSV file"""
+    """Read a PortfolioPerformance CSV file."""
 
     def __init__(self, file_name: str):
         super().__init__()
