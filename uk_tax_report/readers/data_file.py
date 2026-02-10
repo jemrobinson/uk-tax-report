@@ -26,21 +26,27 @@ class DataFile:
 
     @property
     def securities(self) -> dict[str, pd.DataFrame]:
-        """Dictionary of account_name -> DataFrame where the DataFrame contains unique symbols and names of securities in that account"""
+        """Dictionary of account_name -> DataFrame.
+
+        The DataFrame contains unique symbols and names of securities in that account.
+        """
         securities = {}
         for account_name in self.account_names:
             securities[account_name] = sorted(
                 set(
                     self.df_transactions.loc[
                         (self.df_transactions["Cash Account"] == account_name)
-                    ][["Symbol", "Security", "ISIN"]].itertuples(index=False)
+                    ][["Symbol", "Security", "ISIN"]].itertuples(index=False),
                 ),
                 key=lambda t: t.Security.lower(),
             )
         return securities
 
     def get_transaction_list(
-        self, account_name: str, security_name: str, currency: Currency
+        self,
+        account_name: str,
+        security_name: str,
+        currency: Currency,
     ) -> list[Transaction]:
         """List of all transactions for a given account and security"""
         transactions = []
@@ -87,7 +93,7 @@ class DataFile:
                         transaction.Fees,
                         transaction.Taxes,
                         transaction.Note,
-                    )
+                    ),
                 )
             elif (
                 transaction.Note
@@ -100,7 +106,7 @@ class DataFile:
                         currency,
                         transaction.Shares,
                         transaction.Amount,
-                    )
+                    ),
                 )
             elif transaction.Type.lower() in ["dividend", "dividends"]:
                 if not (
@@ -116,7 +122,7 @@ class DataFile:
                             transaction.Fees,
                             transaction.Taxes,
                             transaction.Note,
-                        )
+                        ),
                     )
             elif transaction.Type.lower() in [
                 "fees refund",

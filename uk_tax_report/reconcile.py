@@ -8,8 +8,7 @@ logger = logging.getLogger(__name__)
 
 
 def exchange(purchases: list[Purchase], sale: Sale) -> tuple[Purchase, Sale, Disposal]:
-    """
-    Mark a sale as a direct exchange for a set of transactions.
+    """Mark a sale as a direct exchange for a set of transactions.
 
     This usually happens in the case of a stock split where all existing shares
     are exchanged for a different number of new shares. In PortfolioPerformance
@@ -21,7 +20,10 @@ def exchange(purchases: list[Purchase], sale: Sale) -> tuple[Purchase, Sale, Dis
     for transaction in purchases:
         pool.add_purchase(transaction)
     if pool.units != sale.units:
-        msg = f"Unable to match pool with {pool.units} shares against exchange-sale with {sale.units}"
+        msg = (
+            f"Unable to match pool with {pool.units} shares "
+            f"against exchange-sale with {sale.units}"
+        )
         raise ValueError(msg)
     return reconcile(pool, sale)
 
@@ -39,9 +41,12 @@ def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]
         raise TypeError(msg)
     residual_units = abs(purchase.units - sale.units)
     if purchase.units > sale.units:
-        # In this case we are selling part of the purchase => the entire sale is consumed
+        # In this case we are selling part of the purchase
+        # => the entire sale is consumed
         logger.debug(
-            "Selling part of the purchase: %d of %d", sale.units, purchase.units
+            "Selling part of the purchase: %d of %d",
+            sale.units,
+            purchase.units,
         )
         sale_ = Sale(sale.datetime, sale.currency)
         disposal = Disposal(
@@ -73,7 +78,8 @@ def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]
             purchase_residual_taxes,
         )
     elif purchase.units < sale.units:
-        # In this case we are selling more than the entire purchase => the entire purchase is consumed
+        # In this case we are selling more than the entire purchase
+        # => the entire purchase is consumed
         logger.debug(
             "Selling more than the entire purchase: %d of %d",
             sale.units,
@@ -109,9 +115,12 @@ def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]
             sale_residual_taxes,
         )
     else:
-        # In this case we are selling the entire purchase => the entire purchase and sale are consumed
+        # In this case we are selling the entire purchase
+        # => the entire purchase and sale are consumed
         logger.debug(
-            "Selling the entire purchase: %d of %d", sale.units, purchase.units
+            "Selling the entire purchase: %d of %d",
+            sale.units,
+            purchase.units,
         )
         sale_ = Sale(sale.datetime, sale.currency)
         purchase_ = Purchase(purchase.datetime, purchase.currency)

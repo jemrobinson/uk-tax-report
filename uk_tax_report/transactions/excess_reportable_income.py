@@ -9,7 +9,10 @@ from .purchase import Purchase
 
 
 class ExcessReportableIncome(Purchase):
-    """Excess reportable income from accumulation shares treated as a purchase of 0 additional shares"""
+    """Excess reportable income from accumulation shares.
+
+    This is treated as a purchase of 0 additional shares.
+    """
 
     def __init__(
         self,
@@ -29,5 +32,6 @@ class ExcessReportableIncome(Purchase):
             **kwargs,
         )
         self.type = "ERI"
-        # Note that ERIs are reported (and based on holdings from) six months before they are booked as income
+        # Note that ERIs are reported (and based on holdings from) six months before
+        # they are booked as income
         self.date_reported = date_time - DateOffset(months=6)

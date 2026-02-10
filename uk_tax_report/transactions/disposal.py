@@ -66,4 +66,8 @@ class Disposal(Transaction):
         )
 
     def __str__(self) -> str:
-        return f"Transaction: {self.type:8s} date = {self.date}, units = {self.units}, purchase_total = {self.purchase_total}, sale_total = {self.sale_total}, gain = {self.gain}"
+        return (
+            f"Transaction: {self.type:8s} date = {self.date}, units = {self.units}, "
+            f"purchase_total = {self.purchase_total}, sale_total = {self.sale_total}, "
+            f"gain = {self.gain}"
+        )

@@ -79,4 +79,8 @@ class Transaction(ABC):
         return (self.total == self.currency.zero) and (self.units == 0)
 
     def __str__(self) -> str:
-        return f"Transaction: {self.type:8s} date = {self.date}, units = {self.units}, unit_price = {self.unit_price}, subtotal = {self.subtotal}, fees = {self.fees}, taxes = {self.taxes}, total = {self.total}"
+        return (
+            f"Transaction: {self.type:8s} date = {self.date}, units = {self.units}, "
+            f"unit_price = {self.unit_price}, subtotal = {self.subtotal}, "
+            f"fees = {self.fees}, taxes = {self.taxes}, total = {self.total}"
+        )

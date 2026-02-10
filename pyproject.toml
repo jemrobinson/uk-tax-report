@@ -35,12 +35,11 @@ ignore = [
     "ANN204",   # missing type annotation for __init__
     "ANN401",   # dynamically typed expressions in *args, **kwargs
     "C901",     # too complex
-    "COM812",   # trailing comma missing
     "D105",     # missing docstring in magic method
     "D107",     # missing docstring in __init__
-    "D203",     # conflicts with D211
+    "D203",     # one-blank-line-before-class [conflicts with D211]
     "D205",     # blank line required between summary line and description
-    "D212",     # multi-line docstring summary
+    "D213",     # multi-line-summary-second-line [conflicts with D212]
     "D400",     # first line should end with a period
     "D401",     # first line of docstring should be in imperative mood
     "D415",     # first line should end with a period, question mark, or exclamation point

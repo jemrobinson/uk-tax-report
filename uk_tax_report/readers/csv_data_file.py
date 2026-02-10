@@ -17,15 +17,17 @@ class CsvDataFile(DataFile):
 
         # Read all CSV entries with a valid symbol and security
         self.df_transactions = pd.read_csv(file_name).dropna(
-            subset=["Symbol", "Security"]
+            subset=["Symbol", "Security"],
         )
 
         # Set datatypes
         self.df_transactions["Date"] = pd.to_datetime(self.df_transactions["Date"])
         self.df_transactions["Shares"] = self.df_transactions["Shares"].str.replace(
-            ",", ""
+            ",",
+            "",
         )
         self.df_transactions["Amount"] = self.df_transactions["Amount"].str.replace(
-            ",", ""
+            ",",
+            "",
         )
         logger.debug("Processing %d transactions...", self.df_transactions.shape[0])

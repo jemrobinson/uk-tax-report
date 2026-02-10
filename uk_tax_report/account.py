@@ -30,14 +30,17 @@ class Account:
             ]
             for security in self.securities:
                 security.add_transactions(
-                    data.get_transaction_list(self.name, security.name, self.currency)
+                    data.get_transaction_list(self.name, security.name, self.currency),
                 )
         else:
             self.securities = []
 
     def __add__(self, other: "Account") -> "Account":
         if self.currency != other.currency:
-            msg = f"Cannot add account '{self.name}' with currency {self.currency} to account '{other.name}' with currency {other.currency}"
+            msg = (
+                f"Cannot add account '{self.name}' with currency {self.currency} to "
+                f"account '{other.name}' with currency {other.currency}"
+            )
             raise ValueError(msg)
         output = Account(f"{self.name}-{other.name}", self.currency)
         output.securities = [
@@ -59,7 +62,8 @@ class Account:
     def taxable_securities(self) -> list[Security]:
         """List of securities excluding any VCTs"""
         return sorted(
-            [s for s in self.securities if "VCT" not in s.name], key=lambda s: s.name
+            [s for s in self.securities if "VCT" not in s.name],
+            key=lambda s: s.name,
         )
 
     @property
@@ -80,7 +84,11 @@ class Account:
         ]
 
     def report(
-        self, start_date: date, end_date: date, *, include_non_taxable: bool = False
+        self,
+        start_date: date,
+        end_date: date,
+        *,
+        include_non_taxable: bool = False,
     ):
         """Report tax summary for this account"""
         # Restrict to specified accounts

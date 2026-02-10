@@ -52,7 +52,7 @@ def get_securities(root: ET.Element):
                 "Symbol": ticker_symbol,
                 "currencyCode": currency_code,
                 "note": note,
-            }
+            },
         )
     return pd.DataFrame(securities).drop_duplicates()
 
@@ -62,16 +62,16 @@ def get_transactions(root: ET.Element, account_id, df_securities):
     transactions = []
     for transaction in (
         root.findall(
-            f"*//account[name='{account_id}']/transactions/account-transaction"
+            f"*//account[name='{account_id}']/transactions/account-transaction",
         )
         + root.findall(
-            f"*//accountFrom[name='{account_id}']/transactions/account-transaction"
+            f"*//accountFrom[name='{account_id}']/transactions/account-transaction",
         )
         + root.findall(
-            f"*//accountTo[name='{account_id}']/transactions/account-transaction"
+            f"*//accountTo[name='{account_id}']/transactions/account-transaction",
         )
         + root.findall(
-            f"*//portfolio[name='{account_id}']/transactions/portfolio-transaction"
+            f"*//portfolio[name='{account_id}']/transactions/portfolio-transaction",
         )
     ):
         with suppress(TypeError):
@@ -86,7 +86,7 @@ def get_transactions(root: ET.Element, account_id, df_securities):
                         Decimal(
                             next(c for c in charge if c.tag == "amount").attrib[
                                 "amount"
-                            ]
+                            ],
                         )
                         / 100
                     )
@@ -95,7 +95,7 @@ def get_transactions(root: ET.Element, account_id, df_securities):
                         Decimal(
                             next(c for c in charge if c.tag == "amount").attrib[
                                 "amount"
-                            ]
+                            ],
                         )
                         / 100
                     )
@@ -118,7 +118,7 @@ def get_transactions(root: ET.Element, account_id, df_securities):
                         "Taxes": abs(taxes),
                         "Cash Account": account_id,
                         "Note": note,
-                    }
+                    },
                 )
     return pd.DataFrame(transactions).drop_duplicates()
 
@@ -144,12 +144,15 @@ def read_xml(file_name: str) -> pd.DataFrame:
         [
             get_transactions(root, account_name, df_securities)
             for account_name in df_accounts["id"].unique()
-        ]
+        ],
     )
 
     # Merge transactions with securities, dropping invalid rows
     return df_transactions.merge(
-        df_securities, how="outer", left_on="Security", right_on="id"
+        df_securities,
+        how="outer",
+        left_on="Security",
+        right_on="id",
     )
 
 
