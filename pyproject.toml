@@ -33,7 +33,6 @@ ignore = [
     "ANN003",   # missing type annotation for **kwargs
     "ANN201",   # missing return type annotation for public function
     "ANN204",   # missing type annotation for __init__
-    "ANN401",   # dynamically typed expressions in *args, **kwargs
     "C901",     # too complex
     "D105",     # missing docstring in magic method
     "D107",     # missing docstring in __init__

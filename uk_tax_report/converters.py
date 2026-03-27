@@ -4,8 +4,9 @@ import datetime
 from contextlib import suppress
 from decimal import Decimal, InvalidOperation
 from math import isnan
-from typing import Any, Union
+from typing import Union
 
+from _typeshed import ConvertibleToFloat
 from dateutil.parser import parse
 from moneyed import Currency, CurrencyDoesNotExist, Money, format_money, get_currency
 
@@ -22,18 +23,18 @@ def abs_divide(money: Money, number: Union[float, Decimal]) -> Money:
     return Money(value, money.currency)
 
 
-def as_currency(data: Any) -> Currency:
+def as_currency(data: Union[Currency, str, int]) -> Currency:
     """Convert arbitrary data into Currency."""
     if isinstance(data, Currency):
         return data
     with suppress(CurrencyDoesNotExist):
-        return get_currency(code=data)
+        return get_currency(code=str(data))
     with suppress(CurrencyDoesNotExist):
         return get_currency(iso=data)
-    raise CurrencyDoesNotExist(data)
+    raise CurrencyDoesNotExist(str(data))
 
 
-def as_datetime(data: Any) -> datetime.datetime:
+def as_datetime(data: Union[datetime.datetime, str, bytes]) -> datetime.datetime:
     """Convert arbitrary data into a datetime."""
     if isinstance(data, datetime.datetime):
         return data
@@ -45,10 +46,10 @@ def as_fractional_money(money: Money) -> str:
     return format_money(money, format="\xa4#.####", currency_digits=False)
 
 
-def as_money(data: Any, currency: Currency) -> Money:
+def as_money(data: object, currency: Currency) -> Money:
     """Convert arbitrary data into Money."""
     if isinstance(data, Money):
         return data
-    if isnan(float(data)):
+    if isinstance(data, ConvertibleToFloat) and isnan(float(data)):
         return Money(0, currency)
     return Money(data, currency)
