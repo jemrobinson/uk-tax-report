@@ -4,9 +4,8 @@ import datetime
 from contextlib import suppress
 from decimal import Decimal, InvalidOperation
 from math import isnan
-from typing import Union
+from typing import Union, SupportsFloat
 
-from _typeshed import ConvertibleToFloat
 from dateutil.parser import parse
 from moneyed import Currency, CurrencyDoesNotExist, Money, format_money, get_currency
 
@@ -20,6 +19,8 @@ def abs_divide(money: Money, number: Union[float, Decimal]) -> Money:
         value = abs(money / number)
     except (ZeroDivisionError, InvalidOperation):
         value = 0
+    if isinstance(value, Money):
+        return value
     return Money(value, money.currency)
 
 
@@ -50,6 +51,6 @@ def as_money(data: object, currency: Currency) -> Money:
     """Convert arbitrary data into Money."""
     if isinstance(data, Money):
         return data
-    if isinstance(data, ConvertibleToFloat) and isnan(float(data)):
+    if isinstance(data, Union[str, SupportsFloat]) and isnan(float(data)):
         return Money(0, currency)
     return Money(data, currency)
