@@ -11,7 +11,7 @@ from moneyed import Currency, CurrencyDoesNotExist, Money, format_money, get_cur
 
 
 def abs_divide(money: Money, number: Union[float, Decimal]) -> Money:
-    """The absolute value of dividing Money by a number.
+    """Divide a Money by a number and return the absolute value.
 
     Returns 0 if there is an invalid division.
     """
