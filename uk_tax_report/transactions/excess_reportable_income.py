@@ -1,6 +1,7 @@
 """Definition of the ExcessReportableIncome class."""
 
 from datetime import datetime
+from typing import Any
 
 from moneyed import Currency
 from pandas import DateOffset
@@ -20,7 +21,7 @@ class ExcessReportableIncome(Purchase):
         currency: Currency,
         units: int,
         amount: float,
-        **kwargs,
+        **kwargs: Any,
     ) -> None:
         """Create an ExcessReportableIncome."""
         super().__init__(
