@@ -4,7 +4,7 @@ import datetime
 from contextlib import suppress
 from decimal import Decimal, InvalidOperation
 from math import isnan
-from typing import Union, SupportsFloat
+from typing import SupportsFloat, Union
 
 from dateutil.parser import parse
 from moneyed import Currency, CurrencyDoesNotExist, Money, format_money, get_currency

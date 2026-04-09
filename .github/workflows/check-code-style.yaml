@@ -24,8 +24,8 @@ jobs:
       - name: Install dependencies
         run: uv sync
 
-      - name: Check imports with isort
-        run: uv run --group dev isort --profile black .
+      - name: Check imports with ruff
+        run: uv run --group dev ruff check --select I --fix .
 
       - name: Check style with black
         run: uv run --group dev black --check .

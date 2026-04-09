@@ -21,7 +21,6 @@ dependencies = [
 [dependency-groups]
 dev = [
     "black>22.0",
-    "isort>5.10",
     "ruff>0.9",
 ]
 
