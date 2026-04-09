@@ -30,7 +30,6 @@ ignore = [
     "ANN002",   # missing type annotation for **args
     "ANN003",   # missing type annotation for **kwargs
     "ANN201",   # missing return type annotation for public function
-    "ANN204",   # missing type annotation for __init__
     "C901",     # too complex
     "COM812",   # missing-trailing-comma [conflicts with formatter]
     "D203",     # one-blank-line-before-class [conflicts with D211]

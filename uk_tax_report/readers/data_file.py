@@ -16,7 +16,7 @@ from uk_tax_report.transactions import (
 class DataFile:
     """Read a PortfolioPerformance data file."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         """Create a DataFile."""
         self.df_transactions: pd.DataFrame
 

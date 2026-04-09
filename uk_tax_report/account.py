@@ -15,7 +15,9 @@ logger = logging.getLogger(__name__)
 class Account:
     """Account containing several transactions."""
 
-    def __init__(self, name: str, currency: str, data: Optional[DataFile] = None):
+    def __init__(
+        self, name: str, currency: str, data: Optional[DataFile] = None
+    ) -> None:
         """Create an Account."""
         self.name = name
         self.currency = as_currency(currency)
@@ -55,7 +57,7 @@ class Account:
                     security.add_transactions(existing_security.transactions)
         return output
 
-    def __radd__(self, other):
+    def __radd__(self, other) -> None:
         """Add this account to another, or return this if the other is invalid."""
         if not isinstance(other, Account):
             return self

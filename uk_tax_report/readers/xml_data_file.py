@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class XmlDataFile(DataFile):
     """Read a PortfolioPerformance XML file."""
 
-    def __init__(self, file_name: str):
+    def __init__(self, file_name: str) -> None:
         """Create an XmlDataFile."""
         super().__init__()
 

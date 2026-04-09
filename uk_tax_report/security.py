@@ -26,7 +26,9 @@ logger = logging.getLogger(__name__)
 class Security:
     """Representation of a single security and associated transactions."""
 
-    def __init__(self, symbol: str, name: str, currency: Currency, isin: str = ""):
+    def __init__(
+        self, symbol: str, name: str, currency: Currency, isin: str = ""
+    ) -> None:
         """Create a Security."""
         self.currency = currency
         self.isin = isin

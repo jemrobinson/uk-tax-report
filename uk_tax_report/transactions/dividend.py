@@ -6,7 +6,7 @@ from .credit_debit import CreditTransaction
 class Dividend(CreditTransaction):
     """Transaction where a dividend is paid by a security."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, **kwargs) -> None:
         """Create a Dividend."""
         super().__init__(*args, **kwargs)
         self.type: str = "Dividend"

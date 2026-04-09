@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 class CsvDataFile(DataFile):
     """Read a PortfolioPerformance CSV file."""
 
-    def __init__(self, file_name: str):
+    def __init__(self, file_name: str) -> None:
         """Create a CsvDataFile."""
         super().__init__()
 

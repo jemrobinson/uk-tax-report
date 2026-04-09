@@ -22,7 +22,7 @@ class Transaction(ABC):
         fees: Union[float, Money] = 0,
         taxes: Union[float, Money] = 0,
         note: str = "",
-    ):
+    ) -> None:
         """Create a Transaction."""
         self.datetime: datetime = as_datetime(date_time)
         self.currency: Currency = as_currency(currency)
