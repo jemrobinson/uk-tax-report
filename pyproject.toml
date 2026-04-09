@@ -36,7 +36,6 @@ ignore = [
     "D105",     # missing docstring in magic method
     "D107",     # missing docstring in __init__
     "D203",     # one-blank-line-before-class [conflicts with D211]
-    "D205",     # blank line required between summary line and description
     "D213",     # multi-line-summary-second-line [conflicts with D212]
     "FA100",    # add `from __future__ import annotations` to simplify `typing.Union`
     "PLR0913",  # too many arguments in function definition
