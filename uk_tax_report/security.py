@@ -67,7 +67,7 @@ class Security:
         start_date: Optional[date] = None,
         end_date: Optional[date] = None,
     ) -> bool:
-        """Was this security held between the specified dates (inclusive)?"""
+        """Check whether this security was held in the date range (inclusive)."""
         start_date = start_date or date(MINYEAR, 1, 1)
         end_date = end_date or date(MAXYEAR, 12, 31)
         # Check whether any units were held on the start date
