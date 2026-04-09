@@ -7,5 +7,6 @@ class Purchase(DebitTransaction):
     """Transaction where a security is bought."""
 
     def __init__(self, *args, **kwargs):
+        """Create a Purchase."""
         super().__init__(*args, **kwargs)
         self.type: str = "Bought"

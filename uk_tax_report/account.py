@@ -16,6 +16,7 @@ class Account:
     """Account containing several transactions."""
 
     def __init__(self, name: str, currency: str, data: Optional[DataFile] = None):
+        """Create an Account."""
         self.name = name
         self.currency = as_currency(currency)
         if data:

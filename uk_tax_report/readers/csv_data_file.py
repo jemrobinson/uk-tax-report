@@ -13,6 +13,7 @@ class CsvDataFile(DataFile):
     """Read a PortfolioPerformance CSV file."""
 
     def __init__(self, file_name: str):
+        """Create a CsvDataFile."""
         super().__init__()
 
         # Read all CSV entries with a valid symbol and security

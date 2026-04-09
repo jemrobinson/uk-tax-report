@@ -12,6 +12,7 @@ class PooledPurchase(Purchase):
     """Combination of several transactions."""
 
     def __init__(self, currency: Currency, **kwargs):
+        """Create a PooledPurchase."""
         kwargs["date_time"] = kwargs.get("date_time", "0001-01-01")
         super().__init__(currency=currency, **kwargs)
         self.type: str = "Pool"

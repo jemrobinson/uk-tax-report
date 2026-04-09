@@ -22,6 +22,7 @@ class ExcessReportableIncome(Purchase):
         amount: float,
         **kwargs,
     ) -> None:
+        """Create an ExcessReportableIncome."""
         super().__init__(
             date_time=date_time,
             currency=currency,

@@ -17,6 +17,7 @@ class DataFile:
     """Read a PortfolioPerformance data file."""
 
     def __init__(self):
+        """Create a DataFile."""
         self.df_transactions: pd.DataFrame
 
     @property

@@ -3,7 +3,7 @@
 from abc import ABC, abstractmethod
 from datetime import date, datetime
 from decimal import Decimal
-from typing import Optional, Union
+from typing import Union
 
 from moneyed import Currency, Money
 
@@ -23,6 +23,7 @@ class Transaction(ABC):
         taxes: Union[float, Money] = 0,
         note: str = "",
     ):
+        """Create a Transaction."""
         self.datetime: datetime = as_datetime(date_time)
         self.currency: Currency = as_currency(currency)
         self.units: Decimal = Decimal(units)
@@ -30,7 +31,7 @@ class Transaction(ABC):
         self.fees: Money = as_money(fees, self.currency)
         self.taxes: Money = as_money(taxes, self.currency)
         self.note: str = str(note)
-        self.type: Optional[str] = None
+        self.type: str = ""
 
     @property
     def date(self) -> date:

@@ -22,6 +22,7 @@ class Disposal(Transaction):
         sale_fees,
         sale_taxes,
     ):
+        """Create a Disposal."""
         super().__init__(date_time=date_time, currency=currency, units=units)
         self.purchase_total: Money = as_money(purchase_total, currency)
         self.purchase_fees: Money = as_money(purchase_fees, currency)

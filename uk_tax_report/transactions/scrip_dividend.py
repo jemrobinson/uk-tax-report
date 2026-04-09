@@ -7,5 +7,6 @@ class ScripDividend(Purchase):
     """Transaction where security pays a dividend in the form of shares."""
 
     def __init__(self, *args, **kwargs):
+        """Create a ScripDividend."""
         super().__init__(*args, **kwargs)
         self.type: str = "Scrip dividend of"

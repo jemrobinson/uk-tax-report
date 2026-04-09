@@ -14,6 +14,7 @@ class XmlDataFile(DataFile):
     """Read a PortfolioPerformance XML file."""
 
     def __init__(self, file_name: str):
+        """Create an XmlDataFile."""
         super().__init__()
 
         # Read all XML entries with a valid symbol and security

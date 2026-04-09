@@ -27,6 +27,7 @@ class Security:
     """Representation of a single security and associated transactions."""
 
     def __init__(self, symbol: str, name: str, currency: Currency, isin: str = ""):
+        """Create a Security."""
         self.currency = currency
         self.isin = isin
         self.name = name

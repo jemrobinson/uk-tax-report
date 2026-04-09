@@ -9,6 +9,7 @@ class BedAndBreakfast(Disposal):
     TIME_LIMIT_DAYS = 30
 
     def __init__(self, disposal: Disposal):
+        """Create a BedAndBreakfast."""
         super().__init__(
             disposal.datetime,
             disposal.currency,
