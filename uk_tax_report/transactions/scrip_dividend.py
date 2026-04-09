@@ -1,14 +1,14 @@
-"""Definition of the ScripDividend class"""
-# Third-party imports
-from moneyed import Money
+"""Definition of the ScripDividend class."""
 
-# Local imports
+from typing import Any
+
 from .purchase import Purchase
 
 
 class ScripDividend(Purchase):
-    """Transaction where security pays a dividend in the form of shares"""
+    """Transaction where security pays a dividend in the form of shares."""
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args: Any, **kwargs: Any) -> None:
+        """Create a ScripDividend."""
         super().__init__(*args, **kwargs)
         self.type: str = "Scrip dividend of"

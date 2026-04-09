@@ -1,13 +1,9 @@
-"""Definition of the Reader class"""
-# Standard library imports
-from typing import Dict, List, Set
+"""Definition of the DataFile class."""
 
-# Third-party imports
 import pandas as pd
 from moneyed import Currency
 
-# Local imports
-from ..transactions import (
+from uk_tax_report.transactions import (
     Dividend,
     ExcessReportableIncome,
     Purchase,
@@ -18,35 +14,42 @@ from ..transactions import (
 
 
 class DataFile:
-    """Read a PortfolioPerformance data file"""
+    """Read a PortfolioPerformance data file."""
 
-    def __init__(self):
+    def __init__(self) -> None:
+        """Create a DataFile."""
         self.df_transactions: pd.DataFrame
 
     @property
-    def account_names(self) -> Set[str]:
-        """List of account names"""
+    def account_names(self) -> set[str]:
+        """List of account names."""
         return set(self.df_transactions["Cash Account"])
 
     @property
-    def securities(self) -> Dict[str, pd.DataFrame]:
-        """Dictionary of account_name -> DataFrame where the DataFrame contains unique symbols and names of securities in that account"""
+    def securities(self) -> dict[str, pd.DataFrame]:
+        """Dictionary of account_name -> DataFrame.
+
+        The DataFrame contains unique symbols and names of securities in that account.
+        """
         securities = {}
         for account_name in self.account_names:
             securities[account_name] = sorted(
                 set(
                     self.df_transactions.loc[
                         (self.df_transactions["Cash Account"] == account_name)
-                    ][["Symbol", "Security"]].itertuples(index=False)
+                    ][["Symbol", "Security", "ISIN"]].itertuples(index=False),
                 ),
                 key=lambda t: t.Security.lower(),
             )
         return securities
 
     def get_transaction_list(
-        self, account_name: str, security_name: str, currency: Currency
-    ) -> List[Transaction]:
-        """List of all transactions for a given account and security"""
+        self,
+        account_name: str,
+        security_name: str,
+        currency: Currency,
+    ) -> list[Transaction]:
+        """List of all transactions for a given account and security."""
         transactions = []
         for _, transaction in self.df_transactions.loc[
             (self.df_transactions["Cash Account"] == account_name)
@@ -77,7 +80,11 @@ class DataFile:
                         transaction.Note,
                     )
                 transactions.append(bought)
-            elif transaction.Type.lower() in ["sell", "delivery_outbound", "transfer_out"]:
+            elif transaction.Type.lower() in [
+                "sell",
+                "delivery_outbound",
+                "transfer_out",
+            ]:
                 transactions.append(
                     Sale(
                         transaction.Date,
@@ -87,7 +94,7 @@ class DataFile:
                         transaction.Fees,
                         transaction.Taxes,
                         transaction.Note,
-                    )
+                    ),
                 )
             elif (
                 transaction.Note
@@ -100,7 +107,7 @@ class DataFile:
                         currency,
                         transaction.Shares,
                         transaction.Amount,
-                    )
+                    ),
                 )
             elif transaction.Type.lower() in ["dividend", "dividends"]:
                 if not (
@@ -116,7 +123,7 @@ class DataFile:
                             transaction.Fees,
                             transaction.Taxes,
                             transaction.Note,
-                        )
+                        ),
                     )
             elif transaction.Type.lower() in [
                 "fees refund",
@@ -124,5 +131,6 @@ class DataFile:
             ]:
                 pass
             else:
-                raise ValueError(f"Unknown transaction!\n{transaction}")
+                msg = f"Unknown transaction!\n{transaction}"
+                raise TypeError(msg)
         return transactions

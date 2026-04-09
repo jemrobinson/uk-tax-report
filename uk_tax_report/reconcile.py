@@ -1,15 +1,14 @@
-"""Utility functions related to reconciling transactions"""
-# Standard library imports
-import logging
-from typing import List, Tuple
+"""Utility functions related to reconciling transactions."""
 
-# Local imports
+import logging
+
 from .transactions import Disposal, PooledPurchase, Purchase, Sale
 
+logger = logging.getLogger(__name__)
 
-def exchange(purchases: List[Purchase], sale: Sale) -> Tuple[Purchase, Sale, Disposal]:
-    """
-    Mark a sale as a direct exchange for a set of transactions.
+
+def exchange(purchases: list[Purchase], sale: Sale) -> tuple[Purchase, Sale, Disposal]:
+    """Mark a sale as a direct exchange for a set of transactions.
 
     This usually happens in the case of a stock split where all existing shares
     are exchanged for a different number of new shares. In PortfolioPerformance
@@ -21,26 +20,34 @@ def exchange(purchases: List[Purchase], sale: Sale) -> Tuple[Purchase, Sale, Dis
     for transaction in purchases:
         pool.add_purchase(transaction)
     if pool.units != sale.units:
-        raise ValueError(
-            f"Unable to match pool with {pool.units} shares against exchange-sale with {sale.units}"
+        msg = (
+            f"Unable to match pool with {pool.units} shares "
+            f"against exchange-sale with {sale.units}"
         )
+        raise ValueError(msg)
     return reconcile(pool, sale)
 
 
-def reconcile(purchase: Purchase, sale: Sale) -> Tuple[Purchase, Sale, Disposal]:
-    """Reconcile a single purchase with a single sale"""
+def reconcile(purchase: Purchase, sale: Sale) -> tuple[Purchase, Sale, Disposal]:
+    """Reconcile a single purchase with a single sale."""
     if not isinstance(purchase, Purchase):
-        raise ValueError(f"{purchase} is not a purchase!")
+        msg = f"{purchase} is not a purchase!"
+        raise TypeError(msg)
     if not isinstance(sale, Sale):
-        raise ValueError(f"{sale} is not a sale!")
-    if not sale.currency == purchase.currency:
-        raise ValueError(
-            f"Currencies {sale.currency} and {purchase.currency} do not match!"
-        )
+        msg = f"{sale} is not a sale!"
+        raise TypeError(msg)
+    if sale.currency != purchase.currency:
+        msg = f"Currencies {sale.currency} and {purchase.currency} do not match!"
+        raise TypeError(msg)
     residual_units = abs(purchase.units - sale.units)
     if purchase.units > sale.units:
-        # In this case we are selling part of the purchase => the entire sale is consumed
-        logging.debug(f"Selling part of the purchase: {sale.units} of {purchase.units}")
+        # In this case we are selling part of the purchase
+        # => the entire sale is consumed
+        logger.debug(
+            "Selling part of the purchase: %d of %d",
+            sale.units,
+            purchase.units,
+        )
         sale_ = Sale(sale.datetime, sale.currency)
         disposal = Disposal(
             sale.datetime,
@@ -71,9 +78,12 @@ def reconcile(purchase: Purchase, sale: Sale) -> Tuple[Purchase, Sale, Disposal]
             purchase_residual_taxes,
         )
     elif purchase.units < sale.units:
-        # In this case we are selling more than the entire purchase => the entire purchase is consumed
-        logging.debug(
-            f"Selling more than the entire purchase: {sale.units} of {purchase.units}"
+        # In this case we are selling more than the entire purchase
+        # => the entire purchase is consumed
+        logger.debug(
+            "Selling more than the entire purchase: %d of %d",
+            sale.units,
+            purchase.units,
         )
         purchase_ = Purchase(purchase.datetime, purchase.currency)
         disposal = Disposal(
@@ -104,9 +114,14 @@ def reconcile(purchase: Purchase, sale: Sale) -> Tuple[Purchase, Sale, Disposal]
             sale_residual_fees,
             sale_residual_taxes,
         )
-    elif purchase.units == sale.units:
-        # In this case we are selling the entire purchase => the entire purchase and sale are consumed
-        logging.debug(f"Selling the entire purchase: {sale.units} of {purchase.units}")
+    else:
+        # In this case we are selling the entire purchase
+        # => the entire purchase and sale are consumed
+        logger.debug(
+            "Selling the entire purchase: %d of %d",
+            sale.units,
+            purchase.units,
+        )
         sale_ = Sale(sale.datetime, sale.currency)
         purchase_ = Purchase(purchase.datetime, purchase.currency)
         disposal = Disposal(

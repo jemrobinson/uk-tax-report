@@ -1,22 +1,45 @@
-[tool.poetry]
-name = "uk-tax-report"
-version = "0.1.0"
-description = "UK tax report and capital gains calculator for Portfolio Performance"
-authors = ["James Robinson <james.em.robinson@gmail.com>"]
-license = "MIT"
-
-[tool.poetry.dependencies]
-python = "^3.9"
-pandas = "^1.3.5"
-py-moneyed = "^2.0"
-python-dateutil = "^2.8.2"
-
-[tool.poetry.dev-dependencies]
-black = "^22.0"
-flake8 = "^4.0.1"
-isort = "^5.10.1"
-pylint = "^2.12.2"
-
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "uk-tax-report"
+version = "0.2.0"
+description = "UK tax report and capital gains calculator for Portfolio Performance"
+readme = "README.md"
+authors = [
+    { name = "James Robinson", email = "james.em.robinson@gmail.com" }
+]
+requires-python = ">=3.9"
+dependencies = [
+    "defusedxml>=0.7.1",
+    "pandas>1.3",
+    "py-moneyed>2.0",
+    "python-dateutil>2.8",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15",
+]
+
+[tool.ruff.lint]
+select = [ "ALL" ]
+ignore = [
+    "C901",     # too complex
+    "COM812",   # missing-trailing-comma [conflicts with formatter]
+    "D203",     # one-blank-line-before-class [conflicts with D211]
+    "D213",     # multi-line-summary-second-line [conflicts with D212]
+    "FA100",    # add `from __future__ import annotations` to simplify `typing.Union`
+    "PLR0913",  # too many arguments in function definition
+]
+
+[tool.ruff.lint.flake8-annotations]
+allow-star-arg-any = true
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "parents"
+
+[tool.ruff.lint.isort]
+combine-as-imports = true
+known-first-party = ["uk_tax_report"]

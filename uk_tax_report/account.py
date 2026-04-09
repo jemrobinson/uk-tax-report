@@ -1,47 +1,55 @@
-"""Definition of the Account class"""
-# Standard library imports
+"""Definition of the Account class."""
+
 import logging
 from datetime import date
-from typing import List, Optional
+from typing import Optional
 
-# Local imports
 from .converters import as_currency
 from .readers import DataFile
 from .security import Security
 from .transactions import Transaction
 
+logger = logging.getLogger(__name__)
+
 
 class Account:
-    """Account containing several transactions"""
+    """Account containing several transactions."""
 
-    def __init__(self, name: str, currency: str, data: Optional[DataFile] = None):
+    def __init__(
+        self, name: str, currency: str, data: Optional[DataFile] = None
+    ) -> None:
+        """Create an Account."""
         self.name = name
         self.currency = as_currency(currency)
         if data:
             self.securities = [
                 Security(
-                    symbol=security_tuple.Symbol,
-                    name=security_tuple.Security,
                     currency=self.currency,
+                    isin=security_tuple.ISIN,
+                    name=security_tuple.Security,
+                    symbol=security_tuple.Symbol,
                 )
                 for security_tuple in data.securities[self.name]
             ]
             for security in self.securities:
                 security.add_transactions(
-                    data.get_transaction_list(self.name, security.name, self.currency)
+                    data.get_transaction_list(self.name, security.name, self.currency),
                 )
         else:
             self.securities = []
 
     def __add__(self, other: "Account") -> "Account":
+        """Combine securities and transactions from two accounts."""
         if self.currency != other.currency:
-            raise ValueError(
-                f"Cannot add account '{self.name}' with currency {self.currency} to account '{other.name}' with currency {other.currency}"
+            msg = (
+                f"Cannot add account '{self.name}' with currency {self.currency} to "
+                f"account '{other.name}' with currency {other.currency}"
             )
+            raise ValueError(msg)
         output = Account(f"{self.name}-{other.name}", self.currency)
         output.securities = [
-            Security(old.symbol, old.name, self.currency)
-            for old in set(self.securities + other.securities)
+            Security(security.symbol, security.name, security.currency, security.isin)
+            for security in set(self.securities + other.securities)
         ]
         for security in output.securities:
             for existing_security in self.securities + other.securities:
@@ -49,25 +57,31 @@ class Account:
                     security.add_transactions(existing_security.transactions)
         return output
 
-    def __radd__(self, other):
+    def __radd__(self, other: "Account") -> "Account":
+        """Add this account to another, or return this if the other is invalid."""
         if not isinstance(other, Account):
             return self
         return other + self
 
     @property
-    def taxable_securities(self) -> List[Security]:
-        """List of securities excluding any VCTs"""
+    def taxable_securities(self) -> list[Security]:
+        """List of securities excluding any VCTs."""
         return sorted(
-            [s for s in self.securities if "VCT" not in s.name], key=lambda s: s.name
+            [s for s in self.securities if "VCT" not in s.name],
+            key=lambda s: s.name,
         )
 
     @property
-    def transactions(self) -> List[Transaction]:
-        """List of transactions in this account"""
-        return sum([security.transactions for security in self.securities], [])
+    def transactions(self) -> list[Transaction]:
+        """List of transactions in this account."""
+        return [
+            transaction
+            for security in self.securities
+            for transaction in security.transactions
+        ]
 
-    def holdings(self, start_date: date, end_date: date) -> List[Security]:
-        """List of securities held between these dates"""
+    def holdings(self, start_date: date, end_date: date) -> list[Security]:
+        """List of securities held between these dates."""
         return [
             security
             for security in self.securities
@@ -75,20 +89,34 @@ class Account:
         ]
 
     def report(
-        self, start_date: date, end_date: date, include_non_taxable: bool = False
-    ):
-        """Report tax summary for this account"""
+        self,
+        start_date: date,
+        end_date: date,
+        *,
+        include_non_taxable: bool = False,
+    ) -> None:
+        """Report tax summary for this account."""
         # Restrict to specified accounts
-        logging.info(
-            f"Account '{self.name}' has {len(self.transactions)} transactions across {len(self.securities)} securities"
+        logger.info(
+            "Account '%s' has %d transactions across %d securities",
+            self.name,
+            len(self.transactions),
+            len(self.securities),
         )
 
         # Holdings
-        logging.info(
-            f"Listing holdings during UK tax year {start_date.year}-{end_date.year}..."
+        logger.info(
+            "Listing holdings during UK tax year %s-%s...",
+            start_date.year,
+            end_date.year,
         )
         for security in sorted(self.holdings(start_date, end_date)):
-            logging.info(f"  {f'[{security.symbol}]':15} {security.name}")
+            logger.info(
+                "  %s %s %s",
+                f"{f'[{security.isin}]':14}",
+                f"{f'[{security.symbol}]':15}",
+                security.name,
+            )
         relevant_securities = (
             sorted(self.securities, key=lambda s: s.name)
             if include_non_taxable
@@ -96,18 +124,23 @@ class Account:
         )
 
         # Capital gains
-        logging.info(
-            f"Looking for capital gains during UK tax year {start_date.year}-{end_date.year}..."
+        logger.info(
+            "Looking for capital gains during UK tax year %s-%s...",
+            start_date.year,
+            end_date.year,
         )
         for security in relevant_securities:
             security.report_capital_gains(start_date, end_date)
 
         # Dividends and ERIs
-        logging.info(
-            f"Looking for dividends and ERIs during UK tax year {start_date.year}-{end_date.year}..."
+        logger.info(
+            "Looking for dividends and ERIs during UK tax year %s-%s...",
+            start_date.year,
+            end_date.year,
         )
         for security in relevant_securities:
             security.report_dividends(start_date, end_date)
 
     def __str__(self) -> str:
+        """Return string representation of this account."""
         return f"Account '{self.name}' has {len(self.securities)} securities"

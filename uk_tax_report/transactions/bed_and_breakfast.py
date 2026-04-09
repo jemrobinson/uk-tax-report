@@ -1,15 +1,15 @@
-"""Definition of the BedAndBreakfast class"""
-# Third-party imports
-from moneyed import Money
+"""Definition of the BedAndBreakfast class."""
 
-# Local imports
 from .disposal import Disposal
 
 
 class BedAndBreakfast(Disposal):
-    """A disposal where the buying/selling are within 30 days"""
+    """A disposal where the buying/selling are within 30 days."""
 
-    def __init__(self, disposal: Disposal):
+    TIME_LIMIT_DAYS = 30
+
+    def __init__(self, disposal: Disposal) -> None:
+        """Create a BedAndBreakfast."""
         super().__init__(
             disposal.datetime,
             disposal.currency,
