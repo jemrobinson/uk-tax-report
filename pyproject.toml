@@ -32,6 +32,7 @@ ignore = [
     "ANN201",   # missing return type annotation for public function
     "ANN204",   # missing type annotation for __init__
     "C901",     # too complex
+    "COM812",   # missing-trailing-comma [conflicts with formatter]
     "D105",     # missing docstring in magic method
     "D107",     # missing docstring in __init__
     "D203",     # one-blank-line-before-class [conflicts with D211]
