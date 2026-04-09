@@ -235,9 +235,9 @@ class Security:
         # following the sale will automatically apply this.
         for idx_sale, sale in enumerate(sales):
             for idx_purchase, purchase in filter(
-                lambda ptuple, d=sale.date: 0
-                <= (ptuple[1].date - d).days
-                <= BedAndBreakfast.TIME_LIMIT_DAYS,
+                lambda ptuple, d=sale.date: (
+                    0 <= (ptuple[1].date - d).days <= BedAndBreakfast.TIME_LIMIT_DAYS
+                ),
                 enumerate(purchases),
             ):
                 logger.debug("Combining purchase and sale under HS284:")
