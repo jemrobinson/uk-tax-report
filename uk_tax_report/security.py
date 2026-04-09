@@ -36,15 +36,18 @@ class Security:
         self.events_: list[tuple[Transaction, PooledPurchase]] = []
 
     def __repr__(self) -> str:
+        """Return unambiguous string representation of this security."""
         return f"Security({self.name} [{self.symbol}])"
 
     def __str__(self) -> str:
+        """Return string representation of this security."""
         output = repr(self) + "\n"
         for transaction in self.transactions:
             output += f"   {transaction}\n"
         return output
 
     def __lt__(self, other) -> bool:
+        """Compare this security to another for sorting."""
         return self.name < other.name
 
     def add_transactions(self, transactions: list[Transaction]) -> None:

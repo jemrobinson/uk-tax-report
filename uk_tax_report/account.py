@@ -37,6 +37,7 @@ class Account:
             self.securities = []
 
     def __add__(self, other: "Account") -> "Account":
+        """Combine securities and transactions from two accounts."""
         if self.currency != other.currency:
             msg = (
                 f"Cannot add account '{self.name}' with currency {self.currency} to "
@@ -55,6 +56,7 @@ class Account:
         return output
 
     def __radd__(self, other):
+        """Add this account to another, or return this if the other is invalid."""
         if not isinstance(other, Account):
             return self
         return other + self
@@ -138,4 +140,5 @@ class Account:
             security.report_dividends(start_date, end_date)
 
     def __str__(self) -> str:
+        """Return string representation of this account."""
         return f"Account '{self.name}' has {len(self.securities)} securities"

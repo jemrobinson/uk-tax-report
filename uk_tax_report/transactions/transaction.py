@@ -76,10 +76,11 @@ class Transaction(ABC):
 
     @property
     def is_null(self) -> bool:
-        """Whether this is a null transaction."""
+        """Return whether this is a null transaction."""
         return (self.total == self.currency.zero) and (self.units == 0)
 
     def __str__(self) -> str:
+        """Return string representation of this transaction."""
         return (
             f"Transaction: {self.type:8s} date = {self.date}, units = {self.units}, "
             f"unit_price = {self.unit_price}, subtotal = {self.subtotal}, "

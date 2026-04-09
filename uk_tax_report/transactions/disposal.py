@@ -67,6 +67,7 @@ class Disposal(Transaction):
         )
 
     def __str__(self) -> str:
+        """Return string representation of this transaction."""
         return (
             f"Transaction: {self.type:8s} date = {self.date}, units = {self.units}, "
             f"purchase_total = {self.purchase_total}, sale_total = {self.sale_total}, "
