@@ -1,6 +1,9 @@
 """Definition of the Disposal class."""
 
-from moneyed import Money
+from datetime import datetime
+from typing import Union
+
+from moneyed import Currency, Money
 
 from uk_tax_report.converters import abs_divide, as_money
 
@@ -12,15 +15,15 @@ class Disposal(Transaction):
 
     def __init__(  # type: ignore[too-many-positional-arguments]
         self,
-        date_time,
-        currency,
-        units,
-        purchase_total,
-        purchase_fees,
-        purchase_taxes,
-        sale_total,
-        sale_fees,
-        sale_taxes,
+        date_time: Union[str, datetime],
+        currency: Union[str, Currency],
+        units: int,
+        purchase_total: object,
+        purchase_fees: object,
+        purchase_taxes: object,
+        sale_total: object,
+        sale_fees: object,
+        sale_taxes: object,
     ) -> None:
         """Create a Disposal."""
         super().__init__(date_time=date_time, currency=currency, units=units)

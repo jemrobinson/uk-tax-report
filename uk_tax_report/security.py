@@ -48,7 +48,7 @@ class Security:
             output += f"   {transaction}\n"
         return output
 
-    def __lt__(self, other) -> bool:
+    def __lt__(self, other: "Security") -> bool:
         """Compare this security to another for sorting."""
         return self.name < other.name
 

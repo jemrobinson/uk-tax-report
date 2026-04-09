@@ -57,7 +57,7 @@ class Account:
                     security.add_transactions(existing_security.transactions)
         return output
 
-    def __radd__(self, other) -> None:
+    def __radd__(self, other: "Account") -> "Account":
         """Add this account to another, or return this if the other is invalid."""
         if not isinstance(other, Account):
             return self
