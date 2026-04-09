@@ -33,7 +33,7 @@ def get_first(node: ET.Element, match: str) -> Optional[str]:
     return None
 
 
-def get_securities(root: ET.Element):
+def get_securities(root: ET.Element) -> pd.DataFrame:
     """Get securities."""
     securities = []
     for security in iterate_elements(root.findall("securities")):
@@ -57,7 +57,9 @@ def get_securities(root: ET.Element):
     return pd.DataFrame(securities).drop_duplicates()
 
 
-def get_transactions(root: ET.Element, account_id, df_securities):
+def get_transactions(
+    root: ET.Element, account_id: str, df_securities: pd.DataFrame
+) -> pd.DataFrame:
     """Get transactions."""
     transactions = []
     for transaction in (

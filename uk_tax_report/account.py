@@ -94,7 +94,7 @@ class Account:
         end_date: date,
         *,
         include_non_taxable: bool = False,
-    ):
+    ) -> None:
         """Report tax summary for this account."""
         # Restrict to specified accounts
         logger.info(
